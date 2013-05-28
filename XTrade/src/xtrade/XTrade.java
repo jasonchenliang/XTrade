@@ -16,5 +16,6 @@ public class XTrade {
     public static void main(String[] args) {
         // TODO code application logic here
         System.out.println("Hello xTrade from Terry");
+        System.out.println("Hello XTrade from Jason");
     }
 }
