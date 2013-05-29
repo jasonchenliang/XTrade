@@ -11,10 +11,10 @@ public class User {
     /*
      * User constructor 
      */
-    public  User(String userName)
+    public  User(String newUserName)
     {
-        setUserName(userName);
-        setCashBalance(1000.0);
+        this.setUserName(newUserName);
+        this.setCashBalance(1000.0);
     }
 
     /**
