@@ -13,18 +13,33 @@ public class XTradeDriver {
         
         XTrade newXTrade =new XTrade();
         
+        
         //initialize all stock price data
-        newXTrade.update();
+        newXTrade.fetchStock();
         
         //display all stocks' price
-        newXTrade.display();
+        newXTrade.displayStock();
         
         //update the stock price of "google"
-        newXTrade.update("google",2000.0);
+        newXTrade.updateStock("google",2000.0);
         
         //display the stock price of "google"
-        newXTrade.display("amazon");
+        newXTrade.displayStock("google");
+        
+        
+        
+   
+        //initialize all user data
+        newXTrade.fetchUser();
+        
+        //display all user data
+        newXTrade.displayUser();
 
+        //update user "jason" with 2000 credit
+        newXTrade.updateUser("jason",2000.0);
+        
+        //display user "jason"
+        newXTrade.displayUser("jason");
 
     }
 }
