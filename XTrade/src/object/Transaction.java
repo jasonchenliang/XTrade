@@ -1,10 +1,11 @@
 package object;
 
+import java.io.*;
 /**
  *
  * @author chenliang
  */
-public class Transaction {
+public class Transaction implements Serializable{
     private String userName;
     private String stockName;
     private int shares;
