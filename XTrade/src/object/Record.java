@@ -5,15 +5,15 @@ import java.io.*;
  *
  * @author chenliang
  */
-public class Transaction implements Serializable{
+public class Record implements Serializable{
     private String userName;
     private String symbol;
     private int shares;
 
     /*
-     * Transaction constructor
+     * Record constructor
      */
-    public Transaction(String userName,String symbol,int shares)
+    public Record(String userName,String symbol,int shares)
     {
         setUserName(userName);
         setSymbol(symbol);
