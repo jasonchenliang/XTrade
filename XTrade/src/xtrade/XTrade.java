@@ -1,6 +1,8 @@
 package xtrade;
 
-import java.rmi.Remote;
+import java.rmi.*;
+import java.util.ArrayList;
+import object.Stock;
 
 /**
  *
@@ -8,6 +10,12 @@ import java.rmi.Remote;
  */
 public interface XTrade extends Remote{
 
-    public void hello() throws java.rmi.RemoteException;
+    public String hello() throws RemoteException;
+    
+    public boolean isStockExisted(String stockName) throws RemoteException;
 
+    public ArrayList<Stock> query() throws RemoteException;
+    
+    public Stock query(String stockName) throws RemoteException;
+    
 }
