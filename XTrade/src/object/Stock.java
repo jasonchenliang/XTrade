@@ -7,6 +7,7 @@ import java.io.*;
  */
 public class Stock implements Serializable{
     
+    private String symbol;
     private String name;
     private double price;
   
@@ -22,10 +23,25 @@ public class Stock implements Serializable{
      * @param newPrice price of the stock
      * Stock constructor with parameters
      */
-    public Stock(String newName, double newPrice)
+    public Stock(String symbol, String name,double newPrice)
     {
-         this.setName(newName);
-         this.setPrice(newPrice);
+        this.setSymbol(symbol);
+        this.setName(name);
+        this.setPrice(price);
+    }
+
+    /**
+     * @return the symbol
+     */
+    public String getSymbol() {
+        return symbol;
+    }
+
+    /**
+     * @param symbol the symbol to set
+     */
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     /**
@@ -55,5 +71,7 @@ public class Stock implements Serializable{
     public void setPrice(double price) {
         this.price = price;
     }
+
+
     
 }
