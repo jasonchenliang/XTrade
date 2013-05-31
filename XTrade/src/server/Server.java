@@ -24,9 +24,12 @@ public class Server {
             remoteObj.getClass().getName() + "[" + remoteObj + "]");
     }
 
+    
+    
     public static void main(String[] args) throws Exception {
         startRegistry();
         registerObject(XTrade.class.getSimpleName(), new XTradeImpl());
-        Thread.sleep(5 * 60 * 1000);
+ 
+        //       Thread.sleep(5 * 60 * 1000);
     }
 }
