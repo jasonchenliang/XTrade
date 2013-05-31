@@ -4,9 +4,10 @@ package server;
  *
  * @author chenliang
  */
+import impl.XTradeImpl;
+import api.XTrade;
 import java.rmi.*;
 import java.rmi.registry.*;
-import xtrade.*;
 
 public class Server {
     private static final int PORT = 1099;
@@ -27,9 +28,13 @@ public class Server {
     
     
     public static void main(String[] args) throws Exception {
+        
         startRegistry();
+        
         registerObject(XTrade.class.getSimpleName(), new XTradeImpl());
  
+        XTradeImpl newXTradeImpl=new XTradeImpl();
+        
         //       Thread.sleep(5 * 60 * 1000);
     }
 }

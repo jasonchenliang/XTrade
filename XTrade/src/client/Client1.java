@@ -4,8 +4,8 @@ package client;
  *
  * @author chenliang
  */
+import api.XTrade;
 import java.rmi.registry.*;
-import xtrade.*;
 
 public class Client1 {
     private static final String HOST = "localhost";
