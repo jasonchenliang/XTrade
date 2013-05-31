@@ -4,8 +4,8 @@ package server;
  *
  * @author chenliang
  */
-import impl.XTradeImpl;
-import api.XTrade;
+import impl.XTrade;
+import api.XTradeAPI;
 import java.rmi.*;
 import java.rmi.registry.*;
 
@@ -31,10 +31,20 @@ public class Server {
         
         startRegistry();
         
-        registerObject(XTrade.class.getSimpleName(), new XTradeImpl());
+        registerObject(XTradeAPI.class.getSimpleName(), new XTrade());
  
-        XTradeImpl newXTradeImpl=new XTradeImpl();
+
         
-        //       Thread.sleep(5 * 60 * 1000);
+        
+        
+        //initialize 
+        XTrade newXTradeImpl=new XTrade();
+        
+        newXTradeImpl.fetchStock();       
+        newXTradeImpl.fetchUser();        
+        newXTradeImpl.fetchTransaction();
+        
+
+    
     }
 }

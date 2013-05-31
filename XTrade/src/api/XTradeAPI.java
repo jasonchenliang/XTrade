@@ -8,7 +8,7 @@ import object.Stock;
  *
  * @author chen liang
  */
-public interface XTrade extends Remote{
+public interface XTradeAPI extends Remote{
 
     public String hello() throws RemoteException;
     

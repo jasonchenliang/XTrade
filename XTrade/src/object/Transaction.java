@@ -7,16 +7,16 @@ import java.io.*;
  */
 public class Transaction implements Serializable{
     private String userName;
-    private String stockName;
+    private String symbol;
     private int shares;
 
     /*
      * Transaction constructor
      */
-    public Transaction(String userName,String stockName,int shares)
+    public Transaction(String userName,String symbol,int shares)
     {
         setUserName(userName);
-        setStockName(stockName);
+        setSymbol(symbol);
         setShares(shares);
       
     }
@@ -37,17 +37,17 @@ public class Transaction implements Serializable{
     }
 
     /**
-     * @return the stockName
+     * @return the symbol
      */
-    public String getStockName() {
-        return stockName;
+    public String getSymbol() {
+        return symbol;
     }
 
     /**
-     * @param stockName the stockName to set
+     * @param symbol the symbol to set
      */
-    public void setStockName(String stockName) {
-        this.stockName = stockName;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     /**

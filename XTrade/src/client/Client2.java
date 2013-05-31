@@ -4,7 +4,7 @@ package client;
  *
  * @author chenliang
  */
-import api.XTrade;
+import api.XTradeAPI;
 import java.rmi.registry.*;
 
 public class Client2 {
@@ -15,10 +15,13 @@ public class Client2 {
     public static void main(String[] args) throws Exception {
         registry = LocateRegistry.getRegistry(HOST, PORT);
         
-        //new XTrade instance 
-        XTrade remoteXTrade = (XTrade) registry.lookup(XTrade.class.getSimpleName());
+        //new XTradeAPI instance 
+        XTradeAPI remoteXTrade = (XTradeAPI) registry.lookup(XTradeAPI.class.getSimpleName());
         
         System.out.println("client2 is conected.");
 
+        System.out.println(remoteXTrade.isStockExisted("google"));
+        
+        System.out.println(remoteXTrade.query().size());
     }
 }

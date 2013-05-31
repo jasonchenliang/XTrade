@@ -1,6 +1,6 @@
 package impl;
 
-import api.XTrade;
+import api.XTradeAPI;
 import java.rmi.*;
 import java.rmi.server.*;
 
@@ -16,7 +16,7 @@ import java.util.Date;
  *
  * @author chenliang
  */
-public class XTradeImpl extends UnicastRemoteObject implements XTrade{
+public class XTrade extends UnicastRemoteObject implements XTradeAPI{
 
     private static Date date=new Date();;
     private static DateFormat dateFormat=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -26,9 +26,9 @@ public class XTradeImpl extends UnicastRemoteObject implements XTrade{
    
     
     /*
-     * Constructor of XTradeImpl 
+     * Constructor of XTrade 
      */
-    public XTradeImpl() throws RemoteException
+    public XTrade() throws RemoteException
     {
         super();
     }
@@ -47,11 +47,11 @@ public class XTradeImpl extends UnicastRemoteObject implements XTrade{
      * Return true if the stock exists.
      */
     @Override
-    public boolean isStockExisted(String stockName) throws RemoteException
+    public boolean isStockExisted(String symbol) throws RemoteException
     {
         for(int i=0;i<stockList.size();i++)
        {
-           if(stockList.get(i).getName().equalsIgnoreCase(stockName))
+           if(stockList.get(i).getName().equalsIgnoreCase(symbol))
            {
                return true;
            }
@@ -63,11 +63,11 @@ public class XTradeImpl extends UnicastRemoteObject implements XTrade{
     /*
      * Return the stock object given the stock name
      */
-    public Stock getStock(String stockName)
+    public Stock getStock(String symbol)
     {
          for(int i=0;i<stockList.size();i++)
         {
-           if(stockList.get(i).getName().equalsIgnoreCase(stockName))
+           if(stockList.get(i).getName().equalsIgnoreCase(symbol))
            {
                return stockList.get(i);
            }
@@ -78,6 +78,7 @@ public class XTradeImpl extends UnicastRemoteObject implements XTrade{
     /*
      * Display all Stocks' price
      */
+    @Override
     public ArrayList<Stock> query()
     {
             return stockList;
@@ -85,14 +86,14 @@ public class XTradeImpl extends UnicastRemoteObject implements XTrade{
     
     /**
      *
-     * @param stockName the name of the stock to query its price
+     * @param symbol the name of the stock to query its price
      */
     @Override
-    public Stock query(String stockName) throws RemoteException
+    public Stock query(String symbol) throws RemoteException
     {
-       if(isStockExisted(stockName))
+       if(isStockExisted(symbol))
        {
-           return getStock(stockName);
+           return getStock(symbol);
        }
        else
        {   
@@ -123,10 +124,10 @@ public class XTradeImpl extends UnicastRemoteObject implements XTrade{
     /*
      * Update the stock price in the local file.
      */
-    public void updateStock(String stockName, double price) throws RemoteException
+    public void updateStock(String symbol, double price) throws RemoteException
     {
-            getStock(stockName).setPrice(price);
-            System.out.println("Stock price of ["+getStock(stockName).getName()+ "] is updated at "+dateFormat.format(date));
+            getStock(symbol).setPrice(price);
+            System.out.println("Stock price of ["+getStock(symbol).getName()+ "] is updated at "+dateFormat.format(date));
     }
     
     
@@ -261,7 +262,7 @@ public class XTradeImpl extends UnicastRemoteObject implements XTrade{
     {
         for(int i=0;i<transactionList.size();i++)
         {
-            System.out.println(transactionList.get(i).getUserName()+": "+transactionList.get(i).getStockName()+" * "+transactionList.get(i).getShares());
+            System.out.println(transactionList.get(i).getUserName()+": "+transactionList.get(i).getSymbol()+" * "+transactionList.get(i).getShares());
         }
         
     }
@@ -278,7 +279,7 @@ public class XTradeImpl extends UnicastRemoteObject implements XTrade{
             if(transactionList.get(i).getUserName().equalsIgnoreCase(userName))
             {
                 count++;
-                System.out.println(transactionList.get(i).getUserName()+": "+transactionList.get(i).getStockName()+" * "+transactionList.get(i).getShares());
+                System.out.println(transactionList.get(i).getUserName()+": "+transactionList.get(i).getSymbol()+" * "+transactionList.get(i).getShares());
             }
         }
         
@@ -292,11 +293,11 @@ public class XTradeImpl extends UnicastRemoteObject implements XTrade{
     /* 
      *Retrun ture if the user owns at least that many shares of stock
      */
-    private boolean hasEnoughStock(String userName,String stockName,int shares)
+    private boolean hasEnoughStock(String userName,String symbol,int shares)
     {
         for(int i=0;i<transactionList.size();i++)
         {
-            if(transactionList.get(i).getUserName().equalsIgnoreCase(userName)&&transactionList.get(i).getStockName().equalsIgnoreCase(stockName)&&transactionList.get(i).getShares()>=shares)
+            if(transactionList.get(i).getUserName().equalsIgnoreCase(userName)&&transactionList.get(i).getSymbol().equalsIgnoreCase(symbol)&&transactionList.get(i).getShares()>=shares)
             {
               return true;
             }
@@ -307,11 +308,11 @@ public class XTradeImpl extends UnicastRemoteObject implements XTrade{
      /* 
      *Retrun ture if the user owns enough balance to buy that many of stocks
      */
-    private boolean hasEnoughBalance(String userName,String stockName,int shares) throws RemoteException
+    private boolean hasEnoughBalance(String userName,String symbol,int shares) throws RemoteException
     {
         for(int i=0;i<transactionList.size();i++)
         {
-            if(getStock(stockName).getPrice()*shares<=getUser(userName).getCashBalance())
+            if(getStock(symbol).getPrice()*shares<=getUser(userName).getCashBalance())
             {
               return true;
             }
@@ -322,11 +323,11 @@ public class XTradeImpl extends UnicastRemoteObject implements XTrade{
     /*
      * Update transaction record
      */
-    public void updateTransaction(String userName,String stockName,int shares)
+    public void updateTransaction(String userName,String symbol,int shares)
     {
         for(int i=0;i<transactionList.size();i++)
         {
-            if(transactionList.get(i).getUserName().equalsIgnoreCase(userName)&&transactionList.get(i).getStockName().equalsIgnoreCase(stockName))
+            if(transactionList.get(i).getUserName().equalsIgnoreCase(userName)&&transactionList.get(i).getSymbol().equalsIgnoreCase(symbol))
             {
                 transactionList.get(i).setShares(transactionList.get(i).getShares()+shares);
             }
@@ -334,48 +335,48 @@ public class XTradeImpl extends UnicastRemoteObject implements XTrade{
     }
     
     
-   public void buy(String userName,String stockName,int shares) throws RemoteException
+   public void buy(String userName,String symbol,int shares) throws RemoteException
    {
-       if(isUserExisted(userName)&&isStockExisted(stockName))
+       if(isUserExisted(userName)&&isStockExisted(symbol))
        {
-           if(hasEnoughBalance(userName,stockName,shares))
+           if(hasEnoughBalance(userName,symbol,shares))
            {
-              updateUser(userName,-shares*getStock(stockName).getPrice());
-              updateTransaction(userName,stockName,shares);
+              updateUser(userName,-shares*getStock(symbol).getPrice());
+              updateTransaction(userName,symbol,shares);
            }
            else
            {
-               System.out.println("No sufficient balance to buy: "+stockName+" * "+shares+" @ $"+getStock(stockName).getPrice());
+               System.out.println("No sufficient balance to buy: "+symbol+" * "+shares+" @ $"+getStock(symbol).getPrice());
            }
              
        }
        else
        {
            displayUser(userName);//user name is not found OR
-           query(stockName);//stock name is not found
+           query(symbol);//stock name is not found
        }
        
    }
    
    
-   public void sell(String userName,String stockName,int shares) throws RemoteException
+   public void sell(String userName,String symbol,int shares) throws RemoteException
    {
-       if(isUserExisted(userName)&&isStockExisted(stockName))
+       if(isUserExisted(userName)&&isStockExisted(symbol))
        {
-           if(hasEnoughStock(userName,stockName,shares))
+           if(hasEnoughStock(userName,symbol,shares))
             {
-                updateUser(userName,shares*getStock(stockName).getPrice());
-                updateTransaction(userName,stockName,-shares);
+                updateUser(userName,shares*getStock(symbol).getPrice());
+                updateTransaction(userName,symbol,-shares);
             }
             else
             {
-                System.out.println("No sufficient shares to sell: "+stockName+" * "+shares+" @ $"+getStock(stockName).getPrice());
+                System.out.println("No sufficient shares to sell: "+symbol+" * "+shares+" @ $"+getStock(symbol).getPrice());
             }
        }
        else
        {
            displayUser(userName);//user name is not found OR
-           query(stockName);//stock name is not found
+           query(symbol);//stock name is not found
        }
      
    }
