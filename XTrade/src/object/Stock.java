@@ -1,10 +1,11 @@
 package object;
 
+import java.io.*;
 /**
  *
  * @author chenliang
  */
-public class Stock {
+public class Stock implements Serializable{
     
     private String name;
     private double price;
