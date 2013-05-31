@@ -71,7 +71,12 @@ public class Stock implements Serializable{
     public void setPrice(double price) {
         this.price = price;
     }
-
+    
+    public String toString(){
+        return (this.symbol+","+this.name+this.price);
+    }
+          
+            
 
     
 }
