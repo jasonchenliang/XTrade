@@ -72,6 +72,7 @@ public class Stock implements Serializable{
         this.price = price;
     }
     
+    @Override
     public String toString(){
         return (this.symbol+","+this.name+this.price);
     }
