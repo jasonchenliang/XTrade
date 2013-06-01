@@ -5,83 +5,88 @@ package client;
  * @author chenliang
  */
 import api.XTradeAPI;
+import java.io.*;
 import java.rmi.registry.*;
-import object.Record;
-import object.Stock;
-import object.User;
+import java.util.Scanner;
 
 public class Client1 {
     private static final String HOST = "localhost";
     private static final int PORT = 1099;
     private static Registry registry;
-
+    private Scanner in ;
+    
+    
+    @SuppressWarnings("empty-statement")
     public static void main(String[] args) throws Exception {
         registry = LocateRegistry.getRegistry(HOST, PORT);
         
         //new XTradeAPI instance 
         XTradeAPI remoteXTrade = (XTradeAPI) registry.lookup(XTradeAPI.class.getSimpleName());
         
-        
-        System.out.println("----------------------------------");
-        
-        for(User u:remoteXTrade.getAllUser())
-        {
-            System.out.println(u.toString());
-        }
-        
-        System.out.println("----------------------------------");
-
-        for(Stock s:remoteXTrade.getAllStock())
-        {
-            System.out.println(s.toString());
-        }
-        System.out.println("----------------------------------");
-
-        for(Record r:remoteXTrade.getAllRecord())
-        {
-            System.out.println(r.toString());
-        }
-        
-        System.out.println("----------------------------------");
-        
-        
         System.out.println(remoteXTrade.hello()+": 1");
-               
-        System.out.println(remoteXTrade.login("jason"));
+    
+        boolean flag = true;
+        String inputline = new String();
+        String[] loginCom = new String[5];
+        String[] Com = new String[5];
         
-        System.out.println(remoteXTrade.queryUser("johndoe"));
         
-        System.out.println(remoteXTrade.login("johndoe"));
+        while(flag == true){
+            System.out.println("Pleaese login:");
         
-        System.out.println(remoteXTrade.update("goog", 200));
-                        
-        System.out.println(remoteXTrade.sell("goog","jason",1));
-        
-        System.out.println(remoteXTrade.buy("tsla","jason",1));
-        
-        System.out.println(remoteXTrade.queryStock("s"));
-        
-        System.out.println("----------------------------------");
-
-        for(User u:remoteXTrade.getAllUser())
-        {
-            System.out.println(u.toString());
+            InputStreamReader isr = new InputStreamReader(System.in);
+            BufferedReader br= new BufferedReader(isr);
+            inputline = br.readLine();
+            loginCom = inputline.split(" ");
+            if(loginCom.length != 2 || !("user".equalsIgnoreCase(loginCom[0]))){
+                System.out.println("Syntax error (Hints: user ***)!");
+            }
+            else {
+                System.out.println(remoteXTrade.login(loginCom[1]));
+                flag = false;           
+            }      
+        }
+        flag = true;
+        System.out.println("Hints: client1 \n1. update symbol price\n2. query symbol"
+                + "\n3. queryUser username\n4. quit");
+        while(flag == true)
+        {           
+            System.out.print("\nXTrade > ");
+            InputStreamReader isr = new InputStreamReader(System.in);
+            BufferedReader br= new BufferedReader(isr);
+            inputline = br.readLine();
+            Com = inputline.split(" ");            
+            if(Com.length == 1 && Com[0].equalsIgnoreCase("quit")){
+                flag = false;
+            }
+            else if(Com.length == 2 && Com[0].equalsIgnoreCase("query")){
+                System.out.println(remoteXTrade.queryStock(Com[1]));
+            }
+            else if(Com.length == 2 && Com[0].equalsIgnoreCase("queryUser")){
+                
+                    System.out.println(remoteXTrade.queryUser(Com[1]));
+                
+            }
+            else if(Com.length == 3 && Com[0].equalsIgnoreCase("update")){
+                try{
+                    Double price = Double.parseDouble(Com[2]);
+                    System.out.println(remoteXTrade.update(Com[1], price));
+                }
+                catch(NumberFormatException e){
+                    System.out.println("Invalid price!");
+                    
+                } 
+            }
+            else
+            {
+                System.out.println("Syntax error");
+            }
         }
         
-        System.out.println("----------------------------------");
-
-        for(Stock s:remoteXTrade.getAllStock())
-        {
-            System.out.println(s.toString());
-        }
-        System.out.println("----------------------------------");
-
-        for(Record r:remoteXTrade.getAllRecord())
-        {
-            System.out.println(r.toString());
-        }
         
-        System.out.println("----------------------------------");
-        
+    
     }
 }
+
+
+
