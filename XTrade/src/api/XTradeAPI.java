@@ -1,6 +1,10 @@
 package api;
 
 import java.rmi.*;
+import java.util.ArrayList;
+import object.Record;
+import object.Stock;
+import object.User;
 
 /**
  *
@@ -26,5 +30,11 @@ public interface XTradeAPI extends Remote{
     
     public String sell(String symbol,String userName,int shares) throws RemoteException;
     
+    //test API
+    public ArrayList<User> getAllUser() throws RemoteException;
+    
+    public ArrayList<Stock> getAllStock() throws RemoteException;
+    
+    public ArrayList<Record> getAllRecord() throws RemoteException;
     
 }
