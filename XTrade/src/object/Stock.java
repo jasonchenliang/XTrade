@@ -17,13 +17,27 @@ public class Stock implements Serializable{
      * @param symbol symbol of the stock
      * @param name name of the stock
      * @param price price of the stock
-     * Stock constructor with parameters
+     * Stock constructor with 3 parameters
      */
     public Stock(String symbol, String name, double price) {
         this.symbol=symbol;
         this.name=name;
         this.price=price;
         this.shareBalance=STARTBALANCE;
+    }
+    
+        /*
+     * @param symbol symbol of the stock
+     * @param name name of the stock
+     * @param price price of the stock
+     * @param shareBalance shareBalance of the stock
+     * Stock constructor with 4 parameters
+     */
+    public Stock(String symbol, String name, double price,int shareBalance) {
+        this.symbol=symbol;
+        this.name=name;
+        this.price=price;
+        this.shareBalance=shareBalance;
     }
     
 
