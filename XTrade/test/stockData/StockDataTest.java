@@ -4,7 +4,6 @@
  */
 package stockData;
 
-import StockData.StockData;
 import object.Stock;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -41,12 +40,12 @@ public class StockDataTest {
     /**
      * Test of getInstance method, of class StockData.
      */
-   
+    
 
     /**
      * Test of printStockList method, of class StockData.
      */
-   
+    
 
     /**
      * Test of refreshSingle method, of class StockData.
@@ -54,22 +53,21 @@ public class StockDataTest {
     @Test
     public void testRefreshSingle() throws Exception {
         System.out.println("refreshSingle");
-        String stockSymbol = "terry";
+        String stockSymbol = "goog";
         StockData instance = StockData.getInstance();
-      
+       
         Stock result = instance.refreshSingle(stockSymbol);
-        System.out.println(result);
+//        System.out.println(result);
     }
 
     /**
      * Test of populateListfromFile method, of class StockData.
      */
-//    @Test
-//    public void testPopulateListfromFile() {
-//        System.out.println("populateListfromFile");
-//        StockData instance = null;
-//        instance.populateListfromFile();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testPopulateListfromFile() {
+        System.out.println("populateListfromFile");
+        StockData instance = StockData.getInstance();
+        instance.populateListfromFile();
+        instance.printStockList();
+    }
 }
