@@ -108,7 +108,7 @@ public class StockData {
         
     }
     
-    public void populateListfromFile()
+    public void populateStockList()
     {
         String csvFile = STOCKFILE;
 	BufferedReader br = null;
