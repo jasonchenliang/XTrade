@@ -18,17 +18,18 @@ public class Stock implements Serializable{
     {
         
     }
+
     /*
      * @param newName name of the stock
      * @param newPrice price of the stock
      * Stock constructor with parameters
      */
-    public Stock(String symbol, String name,double newPrice)
-    {
-        this.setSymbol(symbol);
-        this.setName(name);
-        this.setPrice(price);
+    public Stock(String symbol, String name, double price) {
+        this.symbol = symbol;
+        this.name = name;
+        this.price = price;
     }
+    
 
     /**
      * @return the symbol
@@ -74,7 +75,8 @@ public class Stock implements Serializable{
     
     @Override
     public String toString(){
-        return (this.symbol+","+this.name+this.price);
+        
+        return (this.symbol+","+this.name+","+Double.toString(this.price));
     }
           
             
