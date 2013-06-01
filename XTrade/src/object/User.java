@@ -11,7 +11,7 @@ public class User implements Serializable{
     private static final double STARTCASHBALANCE=1000.0;
 
     /*
-     * User constructor 
+     * User constructor with 1 parameter to set new user in the file
      */
     public  User(String newUserName)
     {
@@ -19,6 +19,15 @@ public class User implements Serializable{
         this.cashBalance=STARTCASHBALANCE;
     }
 
+    /*
+     * User constructor with 2 parameters
+     */
+    public User(String userName,double cashBalance)
+    {
+        this.userName=userName;
+        this.cashBalance=cashBalance;
+    }
+    
     /**
      * @return the userName
      */
@@ -45,5 +54,11 @@ public class User implements Serializable{
      */
     public void setCashBalance(double cashBalance) {
         this.cashBalance = cashBalance;
+    }
+    
+    @Override
+    public String toString(){
+        
+        return (this.getUserName()+","+this.getCashBalance());
     }
 }
