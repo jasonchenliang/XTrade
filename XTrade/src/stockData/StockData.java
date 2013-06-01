@@ -104,8 +104,8 @@ public class StockData {
         }
         return newRecord;
     }
-    
-    
+     
+      
     public void printList() {
         System.out.println("stock list size:"+stockList.size());
         for (Stock s : stockList) {
@@ -132,6 +132,8 @@ public class StockData {
             String inputLine;
 
             if ((inputLine = in.readLine()) != null) {
+                //remove quotation mark
+                inputLine = inputLine.replaceAll("\"", "");
                 //decorate inputline with starting balance
                 inputLine = inputLine + "," + Integer.toString(Stock.getSTARTBALANCE());
                 newStock = getStockfromCSV(inputLine);
@@ -146,7 +148,9 @@ public class StockData {
     }
    
     public void save(){
-        
+        saveStockList();
+        saveUserList();
+        saveRecordList();
     }
     
     public void load(){
@@ -159,7 +163,7 @@ public class StockData {
         String csvFile = STOCKFILE;
         BufferedReader br = null;
         String line = "";
-        String cvsSplitBy = ",";
+    
         boolean arrayEmptied = false;
         Stock tempStock = null;
         try {
@@ -193,7 +197,7 @@ public class StockData {
         String csvFile = USERFILE;
         BufferedReader br = null;
         String line = "";
-        String cvsSplitBy = ",";
+     
         boolean arrayEmptied = false;
         User tempUser = null;
         try {
@@ -228,7 +232,7 @@ public class StockData {
         String csvFile = RECORDFILE;
         BufferedReader br = null;
         String line = "";
-        String cvsSplitBy = ",";
+     
         boolean arrayEmptied = false;
         Record tempRecord = null;
         try {
@@ -256,6 +260,87 @@ public class StockData {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+    }
+    
+    private void saveStockList(){
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(STOCKFILE);
+            PrintWriter pw = new PrintWriter(fw);
+           
+            for (Stock s:stockList)
+            {
+                pw.println(s);
+            }
+            
+            pw.flush();
+           
+            pw.close();
+            
+            fw.close();
+        } catch (IOException ex) {
+            System.out.println("I/O error");
+        } finally {        
+            try {
+                fw.close();
+            } catch (IOException ex) {
+                System.out.println("I/O error");
+            }
+        }
+    }
+    
+    private void saveUserList(){
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(USERFILE);
+            PrintWriter pw = new PrintWriter(fw);
+            
+            for (User u:userList)
+            {
+                pw.println(u);
+            }
+            
+            pw.flush();
+           
+            pw.close();
+            
+            fw.close();
+        } catch (IOException ex) {
+            System.out.println("I/O error");
+        } finally {        
+            try {
+                fw.close();
+            } catch (IOException ex) {
+                System.out.println("I/O error");
+            }
+        }
+    }
+    
+      private void saveRecordList(){
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(RECORDFILE);
+            PrintWriter pw = new PrintWriter(fw);
+           
+            for (Record r:recordList)
+            {
+                pw.println(r);
+            }
+            
+            pw.flush();
+           
+            pw.close();
+            
+            fw.close();
+        } catch (IOException ex) {
+            System.out.println("I/O error");
+        } finally {        
+            try {
+                fw.close();
+            } catch (IOException ex) {
+                System.out.println("I/O error");
             }
         }
     }
