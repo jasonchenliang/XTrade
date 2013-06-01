@@ -53,11 +53,11 @@ public class StockData {
             if (stockString != null) {
                 if (stockString.length == 4) {
                     Double price = Double.parseDouble(stockString[2]);
-                    int qty=Integer.parseInt(stockString[3]);
-                    if (!(stockString[0].equalsIgnoreCase(stockString[1]) && 
-price == 0.0)) {
-                        newStock = new Stock(stockString[0], stockString[1], 
-price,qty);
+                    int qty = Integer.parseInt(stockString[3]);
+                    if (!(stockString[0].equalsIgnoreCase(stockString[1])
+                            && price == 0.0)) {
+                        newStock = new Stock(stockString[0], stockString[1],
+                                price, qty);
                     }
                 }
             }
@@ -100,7 +100,13 @@ price,qty);
         }
     }
    
+    public void save(){
+        
+    }
     
+    public void load(){
+        
+    }
     
     public void populateListfromFile()
     {
