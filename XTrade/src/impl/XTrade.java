@@ -74,6 +74,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     @Override
     public String queryUser(String userName) throws RemoteException
     {
+        
         for(int i=0;i<userList.size();i++)
         {
             if(userList.get(i).getUserName().equalsIgnoreCase(userName))
@@ -291,5 +292,12 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
         System.out.println("All transaction records are updated at "+dateFormat.format(date));
     }
 
-    
+    public void loadLists()
+    {
+              StockData.getInstance().load();
+              userList=StockData.getInstance().getUserList();
+              stockList=StockData.getInstance().getStockList();
+              recordList=StockData.getInstance().getRecordList();
+              
+    }
 }
