@@ -20,9 +20,23 @@ public class Client1 {
         
         System.out.println(remoteXTrade.hello()+": 1");
         
-        System.out.println("query symbol google: "+remoteXTrade.isStockExisted("google"));
-        System.out.println("query symbol goog: "+remoteXTrade.isStockExisted("goog"));
+        System.out.println(remoteXTrade.queryUser("terry"));
+        
+        System.out.println(remoteXTrade.queryStock("goog"));
+        
+        System.out.println(remoteXTrade.queryRecord("jason","goog"));
+        
+        System.out.println(remoteXTrade.login("jason"));
+        
+        System.out.println(remoteXTrade.update("goog", 200));
+        
+        System.out.println(remoteXTrade.buy("goog", "jason", 1));
+        
+        System.out.println(remoteXTrade.queryRecord("jason","goog"));
+        
+        System.out.println(remoteXTrade.queryStock("goog"));
 
-        System.out.println(remoteXTrade.query().size());
+        
+    
     }
 }
