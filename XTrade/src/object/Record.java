@@ -64,5 +64,9 @@ public class Record implements Serializable{
         this.shares = shares;
     }
     
+    @Override
+    public String toString(){        
+        return (this.getUserName()+","+this.getSymbol()+","+this.getShares());
+    }
     
 }
