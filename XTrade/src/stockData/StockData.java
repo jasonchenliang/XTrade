@@ -42,11 +42,15 @@ public class StockData {
         return recordList;
     }
     
-    public void refresh()
+    public synchronized void refresh()
     {
-        for (Stock s: stockList)
+        Stock temp=null;
+        for (Stock stock: stockList)
         {
-            
+            temp=null;
+            temp=this.querybyurl(stock.getSymbol());
+            if (temp!=null)
+                stock.setPrice(temp.getPrice());
         }
     }
     
@@ -147,7 +151,7 @@ public class StockData {
         }
     }
    
-    public void save(){
+    public synchronized void save(){
         saveStockList();
         saveUserList();
         saveRecordList();

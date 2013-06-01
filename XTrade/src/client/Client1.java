@@ -10,7 +10,7 @@ import java.rmi.registry.*;
 import java.util.Scanner;
 
 public class Client1 {
-    private static final String HOST = "localhost";
+    private static final String HOST = "192.168.0.18";
     private static final int PORT = 1099;
     private static Registry registry;
     private Scanner in ;
@@ -48,7 +48,7 @@ public class Client1 {
         }
         flag = true;
         System.out.println("Hints: client1 \n1. update symbol price\n2. query symbol"
-                + "\n3. queryUser username\n4. quit");
+                + "\n3. queryUser username\n4. man(show the commands)\n5. quit");
         while(flag == true)
         {           
             System.out.print("\nXTrade > ");
@@ -58,6 +58,10 @@ public class Client1 {
             Com = inputline.split(" ");            
             if(Com.length == 1 && Com[0].equalsIgnoreCase("quit")){
                 flag = false;
+            }
+            else if(Com.length == 1 && Com[0].equalsIgnoreCase("man")){
+                 System.out.println("Hints: client1 \n1. update symbol price\n2. query symbol"
+                + "\n3. queryUser username\n4. man(show the commands)\n5. quit");
             }
             else if(Com.length == 2 && Com[0].equalsIgnoreCase("query")){
                 System.out.println(remoteXTrade.queryStock(Com[1]));
