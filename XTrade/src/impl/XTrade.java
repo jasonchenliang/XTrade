@@ -81,12 +81,8 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                 return(userList.get(i).toString());
             }
         }
-        
-        User newUser=new User(userName);
-        userList.add(newUser);
-        StockData.getInstance().save();
-        
-        return(newUser.getUserName());
+                
+        return(userName+" does not exist.");
     }
     
     
@@ -114,7 +110,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
             }
             else
             {
-                return ("Sorry, no stock symbol found.");
+                return ("Sorry, "+symbol+" does not exist.");
             }                        
     }
     
@@ -155,29 +151,88 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     @Override
     public String update(String symbol, double price) throws RemoteException
     {
-            
+            for(int i=0;i<stockList.size();i++)
+            {
+                if(stockList.get(i).getSymbol().equalsIgnoreCase(symbol))
+                {
+                    stockList.get(i).setPrice(price);
+                    StockData.getInstance().save();
+                    
+                    return stockList.get(i).toString();
+                }
+            }
+
+             return ("Sorry, the stock is not tracked.");
+                                  
     }
     
     
     
-          /*
-    //client 2 buys/sells
+    
+    /*
+     * Client 2 buys stock 
+     * @param symbol symbol of stock to buy
+     * @param userName user to buy
+     * @param shares number of shares to buy
+     */
+      
+    @Override
     public String buy(String symbol,String userName,int shares) throws RemoteException
     {
         
+        
+        for(int i=0;i<stockList.size();i++)
+        {
+            if(stockList.get(i).getSymbol().equalsIgnoreCase(symbol))
+            {
+                    for(int j=0;j<userList.size();j++)
+                    {
+                         if(userList.get(j).getUserName().equalsIgnoreCase(userName))
+                         {
+                             if(stockList.get(i).getShareBalance()>=shares)
+                             {
+                                 if(userList.get(i).getCashBalance()>=stockList.get(i).getPrice()*shares)
+                                {
+                                    userList.get(i).setCashBalance(userList.get(i).getCashBalance()-stockList.get(i).getPrice()*shares);
+                                    stockList.get(i).setShareBalance(stockList.get(i).getShareBalance()-shares);
+
+                                    StockData.getInstance().save();
+                                    
+                                    return ("Transaction succeed.");
+                                }
+                                else
+                                {
+                                    return ("No enough cash balance.");
+                                }
+                             }
+                             
+                             else
+                             {
+                                   return ("No enough share available.");
+                             }
+                         }
+                    }
+            }
+        }
+        
+        return ("Please first query "+symbol+" to track.");
+        
+       
     }
     
+    /*
+
+    @Override
     public String sell(String symbol,String userName,int shares) throws RemoteException
     {
         
     }
-    
-    
-    
-    
-    
-    
     */
+    
+    
+    
+    
+    
 
     /*
      * Pull the data from the web.
