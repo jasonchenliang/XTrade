@@ -10,19 +10,38 @@ package stockData;
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
-import object.Stock;
+import object.*;
 
 public class StockData {
     private static final StockData instance = new StockData();
-    private static final String stockFile="c:/stock.csv";
-    private static final String userFile="user.csv";
+    private static final String STOCKFILE="resource/stock.csv";
+    private static final String USERFILE="resource/user.csv";
+    private static final String RECORDFILE="resource/record.csv";
     private ArrayList<Stock> stockList = new ArrayList<>();
+    private ArrayList<User> userList = new ArrayList<>();
+    private ArrayList<Record> recordList = new ArrayList<>();
+    
     
     private StockData() {}
  
     public static StockData getInstance() {
         return instance;
     }
+
+    public ArrayList<Stock> getStockList() {
+        return stockList;
+    }
+
+    public ArrayList<User> getUserList() {
+        return userList;
+    }
+
+    public ArrayList<Record> getRecordList() {
+        return recordList;
+    }
+    
+    
+    
     
     private Stock getStockfromCSV(String inputline) {
         Stock newStock = null;
@@ -30,13 +49,13 @@ public class StockData {
             String[] stockString = inputline.split(",");
 
             if (stockString != null) {
-                if (stockString.length == 3) {
+                if (stockString.length == 4) {
                     Double price = Double.parseDouble(stockString[2]);
-
+                    int qty=Integer.parseInt(stockString[3]);
                     if (!(stockString[0].equalsIgnoreCase(stockString[1]) && 
 price == 0.0)) {
                         newStock = new Stock(stockString[0], stockString[1], 
-price);
+price,qty);
                     }
                 }
             }
@@ -44,6 +63,9 @@ price);
         }
         return newStock;
     }
+    
+    
+    
     
     public void printStockList()
     {
@@ -55,7 +77,7 @@ price);
     }
     
     
-    public Stock refreshSingle(String stockSymbol) throws Exception {
+    public Stock querybyurl(String stockSymbol) throws Exception {
         Stock newStock = null;
         URL oracle = new URL("http://finance.yahoo.com/d/quotes.csv?s=" + 
 stockSymbol + "&f=snl1&e=.csv");
@@ -63,15 +85,18 @@ stockSymbol + "&f=snl1&e=.csv");
                 new InputStreamReader(oracle.openStream()));
 
         String inputLine;
+        
         if ((inputLine = in.readLine()) != null) {
-             newStock = getStockfromCSV(inputLine);
+            //decorate inputline with starting balance
+            inputLine=inputLine+","+Integer.toString(Stock.getSTARTBALANCE());
+            newStock = getStockfromCSV(inputLine);
         }
         return newStock;
     }
     
     public void populateListfromFile()
     {
-        String csvFile = stockFile;
+        String csvFile = STOCKFILE;
 	BufferedReader br = null;
 	String line = "";
 	String cvsSplitBy = ",";
