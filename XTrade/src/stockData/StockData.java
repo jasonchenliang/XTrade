@@ -42,7 +42,7 @@ public class StockData {
         return recordList;
     }
     
-    public void refresh()
+    public synchronized void refresh()
     {
         Stock temp=null;
         for (Stock stock: stockList)
@@ -151,7 +151,7 @@ public class StockData {
         }
     }
    
-    public void save(){
+    public synchronized void save(){
         saveStockList();
         saveUserList();
         saveRecordList();
