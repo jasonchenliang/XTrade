@@ -14,7 +14,8 @@ import stockData.*;
 public class Server {
     private static final int PORT = 1099;
     private static Registry registry;
-
+    private static final int REFRESH_SECS=120;
+    
     public static void startRegistry() throws RemoteException {
         registry = java.rmi.registry.LocateRegistry.createRegistry(PORT);
     }
@@ -42,10 +43,11 @@ public class Server {
         XTrade newXTrade=new XTrade();
 
         StockData.getInstance().printList();
-  
         
-        
-        
+        Thread refresher = new Thread(new priceRefresher(REFRESH_SECS));
+		refresher.start();
+               
+      
     
     }
 }
