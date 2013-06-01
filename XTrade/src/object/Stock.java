@@ -50,6 +50,12 @@ public class Stock implements Serializable{
         return symbol;
     }
 
+    public static int getSTARTBALANCE() {
+        return STARTBALANCE;
+    }
+    
+    
+    
     /**
      * @param symbol the symbol to set
      */
