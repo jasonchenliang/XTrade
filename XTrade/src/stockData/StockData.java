@@ -64,7 +64,7 @@ stockSymbol + "&f=snl1&e=.csv");
 
         String inputLine;
         if ((inputLine = in.readLine()) != null) {
-            newStock = getStockfromCSV(inputLine);
+             newStock = getStockfromCSV(inputLine);
         }
         return newStock;
     }
