@@ -9,6 +9,7 @@ import java.rmi.*;
 import java.rmi.registry.*;
 import impl.XTrade;
 import api.XTradeAPI;
+import stockData.*;
 
 public class Server {
     private static final int PORT = 1099;
@@ -39,10 +40,11 @@ public class Server {
         
         //initialize XTrade
         XTrade newXTrade=new XTrade();
+        newXTrade.loadLists();
+        StockData.getInstance().printList();
+  
         
-        newXTrade.loadStock();       
-        newXTrade.loadUser();        
-        newXTrade.loadRecord();
+        
         
     
     }
