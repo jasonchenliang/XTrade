@@ -161,7 +161,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
             {
                 if(stockList.get(i).getSymbol().equalsIgnoreCase(symbol))
                 {
-                    stockList.get(i).setPrice(price);
+                    stockList.get(i).setPrice(doubleRoundUp(price));
                     StockData.getInstance().save();
                     
                     return ("[UPDATE] succeed -> "+stockList.get(i).toString());
