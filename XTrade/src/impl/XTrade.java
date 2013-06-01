@@ -63,7 +63,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
             userList.add(u);
             StockData.getInstance().save();
         
-        return("Welcome to XTrade, "+ u.getUserName());
+        return("Welcome to XTrade for the first, "+ u.getUserName());
         }
 
 
@@ -84,7 +84,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
         }
         else
         {
-            return(userName+" does not exist.");
+            return("[ERROR] user "+userName+" does not exist.");
         }
     }
     
@@ -110,11 +110,11 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                 {       
                     stockList.add(s);
                     StockData.getInstance().save();
-                    return s.toString();
+                    return ("[ADD] succeed -> "+s.toString());
                 }
                 else
                 {
-                    return ("Sorry, "+symbol+" does not exist.");
+                    return ("[ERROR] stock "+symbol+" does not exist.");
                 }                        
            }
           
@@ -138,7 +138,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
         }
         else
         {
-             return("Record does not exist.");
+             return("[ERROR] record does not exist.");
         }
     }
     
@@ -154,14 +154,16 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     @Override
     public String update(String symbol, double price) throws RemoteException
     {
-            for(int i=0;i<stockList.size();i++)
+           
+        
+        for(int i=0;i<stockList.size();i++)
             {
                 if(stockList.get(i).getSymbol().equalsIgnoreCase(symbol))
                 {
                     stockList.get(i).setPrice(price);
                     StockData.getInstance().save();
                     
-                    return stockList.get(i).toString();
+                    return ("[UPDATE] succeed -> "+stockList.get(i).toString());
                 }
             }
 
@@ -213,12 +215,12 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                 }
                 else
                 {
-                    return("No enough cash balance.");
+                    return("[ERROR] No enough cash balance.");
                 }
             }
             else
             {
-                return("User does not exist.");
+                return("[ERROR] user "+userName+" does not exist.");
             }
         }
         
@@ -262,17 +264,17 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                     }
                     else
                     {
-                        return("No enough stock to sell.");
+                        return("[ERROR] No enough stock to sell.");
                     }
                 }
                 else
                 {
-                    return("No stock to sell yet.");
+                    return("[ERROR] No stock to sell yet.");
                 }
             }
             else
             {
-                return("User does not exist.");
+                return("[ERROR] user"+userName+" does not exist.");
             }
         }
         else
