@@ -57,7 +57,7 @@ public class StockDataTest {
         StockData instance = StockData.getInstance();
        
         Stock result = instance.refreshSingle(stockSymbol);
-        System.out.println(result);
+//        System.out.println(result);
     }
 
     /**
