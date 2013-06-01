@@ -21,9 +21,9 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
 
     private static Date date=new Date();
     private static DateFormat dateFormat=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    private static ArrayList<Stock> stockList = new ArrayList<>();
-    private static ArrayList<User> userList= new ArrayList<>();
-    private static ArrayList<Record> recordList= new ArrayList<>();
+    private  ArrayList<Stock> stockList;
+    private  ArrayList<User> userList;
+    private  ArrayList<Record> recordList;
    
     
     /*
@@ -32,6 +32,8 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     public XTrade() throws RemoteException
     {
         super();
+        loadLists();
+
     }
         
     /**
@@ -96,10 +98,9 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     public String queryStock(String symbol) throws RemoteException
     {       
            Stock s=isStockTracked(symbol);
-           
            if(s!=null)
            {
-               return s.toString();
+                    return s.toString();//     return ("TEST!!!!"+s.toString());
            }
            
            else
@@ -108,9 +109,9 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
             
                 if(s!=null)
                 {       
-                    stockList.add(s);
+                    StockData.getInstance().getStockList().add(s);
                     StockData.getInstance().save();
-                    return ("[ADD] succeed -> "+s.toString());
+                    return ("[ADD] succeed -> "+s.toString()+" stockList size= "+stockList.size()+" stockData size= "+StockData.getInstance().getStockList().size());
                 }
                 else
                 {
@@ -335,6 +336,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
         
         return null;
     }
+    
     
     /*
      * helper function to return record in the array list
