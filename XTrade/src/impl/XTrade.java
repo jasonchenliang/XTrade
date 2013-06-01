@@ -121,19 +121,46 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     
     
     
-    
-    
+    /*
+     * Return the record of given userName and stock symbol
+     * @param userName the name of the user
+     * @param symbol the stock symbol
+     */
+    @Override
     public String queryRecord(String userName,String symbol) throws RemoteException
     {
+        for(int i=0;i<recordList.size();i++)
+        {
+            if(recordList.get(i).getUserName().equalsIgnoreCase(userName))
+            {
+                if(recordList.get(i).getSymbol().equalsIgnoreCase(symbol))
+                {
+                    return recordList.get(i).toString();
+                }
+            }
+        }
         
+        return("Record does not exist.");
     }
     
-    //client 1 updates
+    
+    
+    
+    
+    /*
+     * Client 1 updates the price of a stock
+     * @symbol the symbol to update
+     * @price the price to set
+     */
+    @Override
     public String update(String symbol, double price) throws RemoteException
     {
-        
+            
     }
     
+    
+    
+          /*
     //client 2 buys/sells
     public String buy(String symbol,String userName,int shares) throws RemoteException
     {
@@ -150,7 +177,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     
     
     
-    
+    */
 
     /*
      * Pull the data from the web.
