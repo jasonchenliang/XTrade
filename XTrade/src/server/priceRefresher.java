@@ -13,11 +13,20 @@ import stockData.StockData;
  * @author Swordghost
  */
 public class priceRefresher implements Runnable {
+    private int interval;
+    
+    public priceRefresher(int secs)
+    {
+        this.interval=secs;
+    }
+    
+    
+    
     public void run()
     {
         StockData.getInstance().refresh();
         try {
-            Thread.sleep(2*60*1000);
+            Thread.sleep(interval*1000);
         } catch (InterruptedException ex) {
             Logger.getLogger(priceRefresher.class.getName()).log(Level.SEVERE, null, ex);
         }
