@@ -50,19 +50,22 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     @Override
     public String login(String userName) throws RemoteException
     {
-        for(int i=0;i<userList.size();i++)
+        User u=isUserExisted(userName);
+        
+        if(u!=null)
         {
-            if(userList.get(i).getUserName().equalsIgnoreCase(userName))
-            {
-                return("Welcome back to XTrade, "+userList.get(i).getUserName());
-            }
+            return("Welcome back to XTrade, "+u.getUserName());
         }
         
-        User newUser=new User(userName);
-        userList.add(newUser);
-        StockData.getInstance().save();
+        else
+        {
+            u=new User(userName);
+            userList.add(u);
+            StockData.getInstance().save();
         
-        return("Welcome to XTrade, "+ newUser.getUserName());
+        return("Welcome to XTrade, "+ u.getUserName());
+        }
+
 
     }
     
@@ -74,16 +77,15 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     @Override
     public String queryUser(String userName) throws RemoteException
     {
-        
-        for(int i=0;i<userList.size();i++)
+        User u=isUserExisted(userName);
+        if(u!=null)
         {
-            if(userList.get(i).getUserName().equalsIgnoreCase(userName))
-            {
-                return(userList.get(i).toString());
-            }
+            return u.toString();
         }
-                
-        return(userName+" does not exist.");
+        else
+        {
+            return(userName+" does not exist.");
+        }
     }
     
     
@@ -93,26 +95,29 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     @Override
     public String queryStock(String symbol) throws RemoteException
     {       
-            for(int i=0;i<stockList.size();i++)
-            {
-                if(stockList.get(i).getSymbol().equalsIgnoreCase(symbol))
-                {
-                    return stockList.get(i).toString();
+           Stock s=isStockTracked(symbol);
+           
+           if(s!=null)
+           {
+               return s.toString();
+           }
+           
+           else
+           {
+                s=StockData.getInstance().querybyurl(symbol);
+            
+                if(s!=null)
+                {       
+                    stockList.add(s);
+                    StockData.getInstance().save();
+                    return s.toString();
                 }
-            }
-            
-            Stock stock=StockData.getInstance().querybyurl(symbol);
-            
-            if(stock!=null)
-            {       
-                stockList.add(stock);
-                StockData.getInstance().save();
-                return stock.toString();
-            }
-            else
-            {
-                return ("Sorry, "+symbol+" does not exist.");
-            }                        
+                else
+                {
+                    return ("Sorry, "+symbol+" does not exist.");
+                }                        
+           }
+          
     }
     
     
@@ -126,18 +131,15 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     @Override
     public String queryRecord(String userName,String symbol) throws RemoteException
     {
-        for(int i=0;i<recordList.size();i++)
+        Record r=isRecordExisted(userName,symbol);
+        if(r!=null)
         {
-            if(recordList.get(i).getUserName().equalsIgnoreCase(userName))
-            {
-                if(recordList.get(i).getSymbol().equalsIgnoreCase(symbol))
-                {
-                    return recordList.get(i).toString();
-                }
-            }
+            return(r.toString());
         }
-        
-        return("Record does not exist.");
+        else
+        {
+             return("Record does not exist.");
+        }
     }
     
     
@@ -163,7 +165,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                 }
             }
 
-             return ("Sorry, the stock is not tracked.");
+             return ("Pleas first [QUERY] "+symbol+" to track.");
                                   
     }
     
@@ -193,7 +195,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                 {
                         u.setCashBalance(u.getCashBalance()-s.getPrice()*shares);
                         
-                        Record r=getRecord(userName,symbol);
+                        Record r=isRecordExisted(userName,symbol);
                         
                     if(r!=null)
                     {
@@ -207,7 +209,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                     
                     StockData.getInstance().save();
                     
-                    return ("Transaction succeed!"+queryRecord(userName,symbol).toString());
+                    return ("[BUY] succeed -> "+userName+","+symbol+","+shares);
                 }
                 else
                 {
@@ -222,7 +224,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
         
         else
         {
-             return ("Please first query "+symbol+" to track.");
+             return ("Please first [QUERY] "+symbol+" to track.");
         }
         
        
@@ -246,7 +248,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
             
             if(u!=null)
             {
-                Record r=getRecord(userName,symbol);
+                Record r=isRecordExisted(userName,symbol);
                 
                 if(r!=null)
                 {
@@ -256,7 +258,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                         u.setCashBalance(u.getCashBalance()+s.getPrice()*shares);
                         StockData.getInstance().save();
                         
-                        return("Transaction succeed!"+queryRecord(userName,symbol).toString());
+                        return("[SELL] succeed -> "+userName+","+symbol+","+shares);
                     }
                     else
                     {
@@ -275,7 +277,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
         }
         else
         {
-            return("Pleas first query "+symbol+" to track.");
+            return("Pleas first [QUERY] "+symbol+" to track.");
         }
     }
     
@@ -331,7 +333,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     /*
      * helper function to return record in the array list
      */
-    public Record getRecord(String userName,String symbol)
+    public Record isRecordExisted(String userName,String symbol)
     {
         for(Record r:recordList)
         {
@@ -342,6 +344,21 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
         }
         
         return null;
+    }
+
+    @Override
+    public ArrayList<User> getAllUser() throws RemoteException {
+        return userList;
+    }
+
+    @Override
+    public ArrayList<Stock> getAllStock() throws RemoteException {
+        return stockList;
+    }
+
+    @Override
+    public ArrayList<Record> getAllRecord() throws RemoteException {
+        return recordList;
     }
     
     
