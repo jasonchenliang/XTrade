@@ -40,9 +40,9 @@ public class Server {
         //initialize XTrade
         XTrade newXTrade=new XTrade();
         
-        newXTrade.fetchStock();       
-        newXTrade.fetchUser();        
-        newXTrade.fetchTransaction();
+        newXTrade.loadStock();       
+        newXTrade.loadUser();        
+        newXTrade.loadRecord();
         
     
     }
