@@ -10,6 +10,8 @@ package stockData;
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import object.*;
 
 public class StockData {
@@ -67,32 +69,38 @@ price,qty);
     
     
     
-    public void printStockList()
-    {
+    public void printStockList() {
         System.out.println(stockList.size());
-        for (Stock s:stockList)
-        {
+        for (Stock s : stockList) {
             System.out.println(s);
         }
     }
-    
-    
-    public Stock querybyurl(String stockSymbol) throws Exception {
-        Stock newStock = null;
-        URL oracle = new URL("http://finance.yahoo.com/d/quotes.csv?s=" + 
-stockSymbol + "&f=snl1&e=.csv");
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(oracle.openStream()));
 
-        String inputLine;
-        
-        if ((inputLine = in.readLine()) != null) {
-            //decorate inputline with starting balance
-            inputLine=inputLine+","+Integer.toString(Stock.getSTARTBALANCE());
-            newStock = getStockfromCSV(inputLine);
+    public Stock querybyurl(String stockSymbol) {
+        try {
+            Stock newStock = null;
+            URL oracle = new URL("http://finance.yahoo.com/d/quotes.csv?s="
+                    + stockSymbol + "&f=snl1&e=.csv");
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(oracle.openStream()));
+
+            String inputLine;
+
+            if ((inputLine = in.readLine()) != null) {
+                //decorate inputline with starting balance
+                inputLine = inputLine + "," + Integer.toString(Stock.getSTARTBALANCE());
+                newStock = getStockfromCSV(inputLine);
+            }
+
+            return newStock;
+        } catch (MalformedURLException ex) {
+            return null;
+        } catch (IOException ex) {
+            return null;
         }
-        return newStock;
     }
+   
+    
     
     public void populateListfromFile()
     {
