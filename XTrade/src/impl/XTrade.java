@@ -168,6 +168,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     }
     
     
+
     
     
     /*
@@ -179,60 +180,111 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
       
     @Override
     public String buy(String symbol,String userName,int shares) throws RemoteException
-    {
+    {   
+        Stock s=isStockTracked(symbol);
         
-        
-        for(int i=0;i<stockList.size();i++)
-        {
-            if(stockList.get(i).getSymbol().equalsIgnoreCase(symbol))
+        if(s!=null)
+        {   
+            User u=isUserExisted(userName);
+            
+            if(u!=null)
             {
-                    for(int j=0;j<userList.size();j++)
+                if(u.getCashBalance()>=s.getPrice()*shares)
+                {
+                        u.setCashBalance(u.getCashBalance()-s.getPrice()*shares);
+                        
+                        Record r=getRecord(userName,symbol);
+                        
+                    if(r!=null)
                     {
-                         if(userList.get(j).getUserName().equalsIgnoreCase(userName))
-                         {
-                             if(stockList.get(i).getShareBalance()>=shares)
-                             {
-                                 if(userList.get(i).getCashBalance()>=stockList.get(i).getPrice()*shares)
-                                {
-                                    userList.get(i).setCashBalance(userList.get(i).getCashBalance()-stockList.get(i).getPrice()*shares);
-                                    stockList.get(i).setShareBalance(stockList.get(i).getShareBalance()-shares);
-                                    recordList.get(i).setShares(recordList.get(i).getShares()+shares);
-                                    StockData.getInstance().save();
-                                    
-                                    return ("Transaction succeed.");
-                                }
-                                else
-                                {
-                                    return ("No enough cash balance.");
-                                }
-                             }
-                             
-                             else
-                             {
-                                   return ("No enough share available.");
-                             }
-                         }
+                        r.setShares(r.getShares()+shares);
+                        
                     }
+                    else
+                    {
+                        recordList.add(new Record(userName,symbol,shares));
+                    }
+                    
+                    StockData.getInstance().save();
+                    
+                    return ("Transaction succeed!"+queryRecord(userName,symbol).toString());
+                }
+                else
+                {
+                    return("No enough cash balance.");
+                }
+            }
+            else
+            {
+                return("User does not exist.");
             }
         }
         
-        return ("Please first query "+symbol+" to track.");
+        else
+        {
+             return ("Please first query "+symbol+" to track.");
+        }
         
        
     }
     
-    /*
 
+    /*
+     * Client 2 sells shares of stock
+     * @param symbol symbol to query
+     * @param userName to sell the stock
+     * @param shares number of shares to sell
+     */
     @Override
     public String sell(String symbol,String userName,int shares) throws RemoteException
     {
-        
+      
+        Stock s=isStockTracked(symbol);
+        if(s!=null)
+        {
+            User u=isUserExisted(userName);
+            
+            if(u!=null)
+            {
+                Record r=getRecord(userName,symbol);
+                
+                if(r!=null)
+                {
+                    if(r.getShares()>=shares)
+                    {
+                        r.setShares(r.getShares()-shares);
+                        u.setCashBalance(u.getCashBalance()+s.getPrice()*shares);
+                        StockData.getInstance().save();
+                        
+                        return("Transaction succeed!"+queryRecord(userName,symbol).toString());
+                    }
+                    else
+                    {
+                        return("No enough stock to sell.");
+                    }
+                }
+                else
+                {
+                    return("No stock to sell yet.");
+                }
+            }
+            else
+            {
+                return("User does not exist.");
+            }
+        }
+        else
+        {
+            return("Pleas first query "+symbol+" to track.");
+        }
     }
-    */
     
     
     
     
+    /*
+     * intialize the ArrayLists of user/stock/record
+     */
     public void loadLists()
     {
               StockData.getInstance().load();
@@ -241,4 +293,56 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
               recordList=StockData.getInstance().getRecordList();
               
     }
+    
+    
+    
+    /*
+     * helper function to check if a user existed
+     */
+    public User isUserExisted(String userName)
+    {
+        for(User u:userList)
+        {
+            if(u.getUserName().equalsIgnoreCase(userName))
+            {
+                return u;
+            }
+        }
+        
+        return null;
+    }
+    
+     /*
+     * helper function to check if stock is being tracked
+     */
+    public Stock isStockTracked(String symbol)
+    {
+        for(Stock s:stockList)
+        {
+            if(s.getSymbol().equalsIgnoreCase(symbol))
+            {
+                return s;
+            }
+        }
+        
+        return null;
+    }
+    
+    /*
+     * helper function to return record in the array list
+     */
+    public Record getRecord(String userName,String symbol)
+    {
+        for(Record r:recordList)
+        {
+            if(r.getUserName().equalsIgnoreCase(userName)&&r.getSymbol().equalsIgnoreCase(symbol))
+            {
+                return r;
+            }
+        }
+        
+        return null;
+    }
+    
+    
 }
