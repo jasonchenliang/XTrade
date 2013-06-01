@@ -42,7 +42,13 @@ public class StockData {
         return recordList;
     }
     
-    
+    public void refresh()
+    {
+        for (Stock s: stockList)
+        {
+            
+        }
+    }
     
     
     private Stock getStockfromCSV(String inputline) {
@@ -65,6 +71,8 @@ public class StockData {
         }
         return newStock;
     }
+    
+    
     
      private User getUserfromCSV(String inputline) {
         User newUser = null;
@@ -142,10 +150,12 @@ public class StockData {
     }
     
     public void load(){
-        
+        populateStockList();
+        populateUserList();
+        populateRecordList();
     }
     
-    public void populateStockList() {
+    private void populateStockList() {
         String csvFile = STOCKFILE;
         BufferedReader br = null;
         String line = "";
@@ -179,7 +189,7 @@ public class StockData {
         }
     }
     
-    public void populateUserList() {
+    private void populateUserList() {
         String csvFile = USERFILE;
         BufferedReader br = null;
         String line = "";
@@ -214,7 +224,7 @@ public class StockData {
     }
     
     
-    public void populateRecordList() {
+    private void populateRecordList() {
         String csvFile = RECORDFILE;
         BufferedReader br = null;
         String line = "";
