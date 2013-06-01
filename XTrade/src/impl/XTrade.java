@@ -18,7 +18,7 @@ import java.util.Date;
  */
 public class XTrade extends UnicastRemoteObject implements XTradeAPI{
 
-    private static Date date=new Date();;
+    private static Date date=new Date();
     private static DateFormat dateFormat=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private static ArrayList<Stock> stockList = new ArrayList<>();
     private static ArrayList<User> userList= new ArrayList<>();
@@ -86,7 +86,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     
     /**
      *
-     * @param symbol the name of the stock to query its price
+     * @param symbol the symbol of the stock to query its price
      */
     @Override
     public Stock query(String symbol) throws RemoteException
