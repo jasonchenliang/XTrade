@@ -10,25 +10,22 @@ public class Stock implements Serializable{
     private String symbol;
     private String name;
     private double price;
+    private int shareBalance;
   
     /*
-     * Stock constructor without parameter
-     */
-    public Stock()
-    {
-        
-    }
-
-    /*
-     * @param newName name of the stock
-     * @param newPrice price of the stock
+     * @param symbol symbol of the stock
+     * @param name name of the stock
+     * @param price price of the stock
      * Stock constructor with parameters
      */
     public Stock(String symbol, String name, double price) {
-        this.symbol = symbol;
-        this.name = name;
-        this.price = price;
+        this.symbol=symbol;
+        this.name=name;
+        this.price=price;
+        this.shareBalance=1000;
     }
+    
+
     
 
     /**
@@ -72,14 +69,25 @@ public class Stock implements Serializable{
     public void setPrice(double price) {
         this.price = price;
     }
-    
+
+    /**
+     * @return the shareBalance
+     */
+    public int getShareBalance() {
+        return shareBalance;
+    }
+
+    /**
+     * @param shareBalance the shareBalance to set
+     */
+    public void setShareBalance(int shareBalance) {
+        this.shareBalance = shareBalance;
+    }
+          
     @Override
     public String toString(){
         
-        return (this.symbol+","+this.name+","+Double.toString(this.price));
+        return (this.getSymbol()+","+this.getName()+","+Double.toString(this.getPrice())+","+Integer.toString(this.getShareBalance()));
     }
-          
-            
-
     
 }
