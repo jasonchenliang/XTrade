@@ -1,5 +1,5 @@
 
-package StockData;
+package stockData;
 
 /**
  *

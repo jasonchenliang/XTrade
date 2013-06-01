@@ -5,7 +5,7 @@ import java.rmi.*;
 import java.rmi.server.*;
 
 import object.User;
-import object.Transaction;
+import object.Record;
 import object.Stock;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,7 +22,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     private static DateFormat dateFormat=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private static ArrayList<Stock> stockList = new ArrayList<>();
     private static ArrayList<User> userList= new ArrayList<>();
-    private static ArrayList<Transaction> transactionList= new ArrayList<>();
+    private static ArrayList<Record> transactionList= new ArrayList<>();
    
     
     /*
@@ -34,12 +34,12 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     }
         
     /**
-     * Test if connected.!!!
+     * Test if connected.
      */
     @Override
     public String hello() throws RemoteException
     {
-        return("You are connected.");
+        return("You are connected");
     }
     
     
@@ -51,7 +51,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     {
         for(int i=0;i<stockList.size();i++)
        {
-           if(stockList.get(i).getName().equalsIgnoreCase(symbol))
+           if(stockList.get(i).getSymbol().equalsIgnoreCase(symbol))
            {
                return true;
            }
@@ -244,9 +244,9 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
      */
     public void fetchTransaction()
     {
-        Transaction newTransaction1 = new Transaction("Jason","google",1);
-        Transaction newTransaction2 = new Transaction("Jason","amazon",1);
-        Transaction newTransaction3 = new Transaction("Jason","tesla",1);
+        Record newTransaction1 = new Record("Jason","goog",1);
+        Record newTransaction2 = new Record("Jason","amzn",1);
+        Record newTransaction3 = new Record("Jason","tsla",1);
         
         transactionList.add(newTransaction1);
         transactionList.add(newTransaction2);

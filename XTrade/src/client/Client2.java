@@ -20,8 +20,5 @@ public class Client2 {
         
         System.out.println("client2 is conected.");
 
-        System.out.println(remoteXTrade.isStockExisted("google"));
-        
-        System.out.println(remoteXTrade.query().size());
     }
 }

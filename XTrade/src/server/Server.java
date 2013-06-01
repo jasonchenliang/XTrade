@@ -4,17 +4,17 @@ package server;
  *
  * @author chenliang
  */
-import impl.XTrade;
-import api.XTradeAPI;
+
 import java.rmi.*;
 import java.rmi.registry.*;
+import impl.XTrade;
+import api.XTradeAPI;
 
 public class Server {
     private static final int PORT = 1099;
     private static Registry registry;
 
     public static void startRegistry() throws RemoteException {
-        // create in server registry
         registry = java.rmi.registry.LocateRegistry.createRegistry(PORT);
     }
 
@@ -37,14 +37,13 @@ public class Server {
         
         
         
-        //initialize 
-        XTrade newXTradeImpl=new XTrade();
+        //initialize XTrade
+        XTrade newXTrade=new XTrade();
         
-        newXTradeImpl.fetchStock();       
-        newXTradeImpl.fetchUser();        
-        newXTradeImpl.fetchTransaction();
+        newXTrade.fetchStock();       
+        newXTrade.fetchUser();        
+        newXTrade.fetchTransaction();
         
-
     
     }
 }
