@@ -23,8 +23,8 @@ public interface XTradeAPI extends Remote{
     
     //client 2 buys/sells
     public String buy(String symbol,String userName,int shares) throws RemoteException;
-    /*
+    
     public String sell(String symbol,String userName,int shares) throws RemoteException;
-    */
+    
     
 }
