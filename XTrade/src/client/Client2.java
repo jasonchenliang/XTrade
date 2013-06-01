@@ -48,7 +48,7 @@ public class Client2 {
         flag = true;
         System.out.println("Client2 Command List:\n1. buy symbol stock_num"
                     + "\n2. sell symbol stock_num\n3. query symbol\n"
-                    + "4. queryRecord symbol\n5. man(show the commands)\n 6. quit");
+                    + "4. queryRecord symbol\n5. man(show the commands)\n6. quit");
         while(flag == true)
         {      
             System.out.print("\nXTrade > ");
