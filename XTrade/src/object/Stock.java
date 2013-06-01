@@ -11,6 +11,7 @@ public class Stock implements Serializable{
     private String name;
     private double price;
     private int shareBalance;
+    private static final int STARTBALANCE=1000;
   
     /*
      * @param symbol symbol of the stock
@@ -22,7 +23,7 @@ public class Stock implements Serializable{
         this.symbol=symbol;
         this.name=name;
         this.price=price;
-        this.shareBalance=1000;
+        this.shareBalance=STARTBALANCE;
     }
     
 

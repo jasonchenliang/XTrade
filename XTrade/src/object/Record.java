@@ -15,9 +15,9 @@ public class Record implements Serializable{
      */
     public Record(String userName,String symbol,int shares)
     {
-        setUserName(userName);
-        setSymbol(symbol);
-        setShares(shares);
+        this.userName=userName;
+        this.symbol=symbol;
+        this.shares=shares;
       
     }
     

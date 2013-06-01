@@ -16,7 +16,7 @@ public interface XTradeAPI extends Remote{
 
     public ArrayList<Stock> query() throws RemoteException;
     
-    public Stock query(String stockName) throws RemoteException;
+    public Stock query(String symbol) throws RemoteException;
     
     
 }

@@ -18,7 +18,6 @@ public class Client2 {
         //new XTradeAPI instance 
         XTradeAPI remoteXTrade = (XTradeAPI) registry.lookup(XTradeAPI.class.getSimpleName());
         
-        System.out.println("client2 is conected.");
-
+        System.out.println(remoteXTrade.hello()+": 2");
     }
 }

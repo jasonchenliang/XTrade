@@ -8,14 +8,15 @@ import java.io.*;
 public class User implements Serializable{
     private String userName;
     private double cashBalance;
+    private static final double STARTCASHBALANCE=1000.0;
 
     /*
      * User constructor 
      */
     public  User(String newUserName)
     {
-        this.setUserName(newUserName);
-        this.setCashBalance(1000.0);
+        this.userName=newUserName;
+        this.cashBalance=STARTCASHBALANCE;
     }
 
     /**
