@@ -196,7 +196,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                                 {
                                     userList.get(i).setCashBalance(userList.get(i).getCashBalance()-stockList.get(i).getPrice()*shares);
                                     stockList.get(i).setShareBalance(stockList.get(i).getShareBalance()-shares);
-
+                                    recordList.get(i).setShares(recordList.get(i).getShares()+shares);
                                     StockData.getInstance().save();
                                     
                                     return ("Transaction succeed.");
@@ -233,65 +233,6 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     
     
     
-    
-
-    /*
-     * Pull the data from the web.
-     * Should be implemented using the real data from the web.
-     * HARD CODED some data thou.
-     */
-    public void loadStock()
-    {
-        Stock newStock1 = new Stock("GOOG","google",1000.00);
-        Stock newStock2 = new Stock("AMZN","amazon",800.00);
-        Stock newStock3 = new Stock("TSLA","tesla",500.00);
-        
-        stockList.add(newStock1);
-        stockList.add(newStock2);
-        stockList.add(newStock3);
-        
-        System.out.println("All stock prices are updated at "+dateFormat.format(date));
-       
-    }
-    
-    
-     /*
-     * Should Pull the data from the file.
-     * HARD CODED some data thou.
-     */
-    public void loadUser()
-    {
-                
-        User newUser1 = new User("Terry");
-        User newUser2 = new User("Ben");
-        User newUser3 = new User("Jason");
-        
-        userList.add(newUser1);
-        userList.add(newUser2);
-        userList.add(newUser3);
-               
-        System.out.println("All users' cash balance are updated at "+dateFormat.format(date));
-
-    }
-    
-
-     /*
-     * Should pull the data from the file.
-     * HARD CODED some data thou.
-     */
-    public void loadRecord()
-    {
-        Record newTransaction1 = new Record("Jason","goog",1);
-        Record newTransaction2 = new Record("Jason","amzn",1);
-        Record newTransaction3 = new Record("Jason","tsla",1);
-        
-        recordList.add(newTransaction1);
-        recordList.add(newTransaction2);
-        recordList.add(newTransaction3);
-        
-        System.out.println("All transaction records are updated at "+dateFormat.format(date));
-    }
-
     public void loadLists()
     {
               StockData.getInstance().load();
