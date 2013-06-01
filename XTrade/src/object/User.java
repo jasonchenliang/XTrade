@@ -45,14 +45,14 @@ public class User implements Serializable{
     /**
      * @return the cashBalance
      */
-    public double getCashBalance() {
+    public synchronized double getCashBalance() {
         return cashBalance;
     }
 
     /**
      * @param cashBalance the cashBalance to set
      */
-    public void setCashBalance(double cashBalance) {
+    public synchronized void setCashBalance(double cashBalance) {
         this.cashBalance = cashBalance;
     }
     

@@ -53,14 +53,14 @@ public class Record implements Serializable{
     /**
      * @return the shares
      */
-    public int getShares() {
+    public synchronized int getShares() {
         return shares;
     }
 
     /**
      * @param shares the shares to set
      */
-    public void setShares(int shares) {
+    public synchronized void setShares(int shares) {
         this.shares = shares;
     }
     

@@ -87,21 +87,21 @@ public class Stock implements Serializable{
     /**
      * @param price the price to set
      */
-    public void setPrice(double price) {
+    public synchronized void setPrice(double price) {
         this.price = price;
     }
 
     /**
      * @return the shareBalance
      */
-    public int getShareBalance() {
+    public synchronized int  getShareBalance() {
         return shareBalance;
     }
 
     /**
      * @param shareBalance the shareBalance to set
      */
-    public void setShareBalance(int shareBalance) {
+    public synchronized void setShareBalance(int shareBalance) {
         this.shareBalance = shareBalance;
     }
           
