@@ -109,7 +109,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
             
                 if(s!=null)
                 {       
-                    StockData.getInstance().getStockList().add(s);
+                    stockList.add(s);
                     StockData.getInstance().save();
                     return ("[ADD] succeed -> "+s.toString()+" stockList size= "+stockList.size()+" stockData size= "+StockData.getInstance().getStockList().size());
                 }
@@ -196,7 +196,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
             {
                 if(u.getCashBalance()>=s.getPrice()*shares)
                 {
-                        u.setCashBalance(u.getCashBalance()-s.getPrice()*shares);
+                        u.setCashBalance(doubleRoundUp(u.getCashBalance()-s.getPrice()*shares));
                         
                         s.setShareBalance(s.getShareBalance()-shares);
                         
@@ -259,7 +259,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                 {
                     if(r.getShares()>=shares)
                     {
-                        u.setCashBalance(u.getCashBalance()+s.getPrice()*shares);
+                        u.setCashBalance(doubleRoundUp(u.getCashBalance()+s.getPrice()*shares));
                         s.setShareBalance(s.getShareBalance()+shares);
                         r.setShares(r.getShares()-shares);
 
@@ -294,7 +294,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     /*
      * intialize the ArrayLists of user/stock/record
      */
-    public void loadLists()
+    public final void loadLists()
     {
               StockData.getInstance().load();
               userList=StockData.getInstance().getUserList();
@@ -352,6 +352,15 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
         }
         
         return null;
+    }
+    
+    
+    /*
+     * helper function to round up double number
+     */
+    private double doubleRoundUp(double value)
+    {
+        return (double)Math.round(value* 100.0 )/100.0;
     }
 
     @Override
