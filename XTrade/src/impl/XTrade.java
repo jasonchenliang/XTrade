@@ -63,7 +63,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
             userList.add(u);
             StockData.getInstance().save();
         
-        return("Welcome to XTrade for the first, "+ u.getUserName());
+        return("Welcome to XTrade for the first time, "+ u.getUserName());
         }
 
 
@@ -197,6 +197,8 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                 {
                         u.setCashBalance(u.getCashBalance()-s.getPrice()*shares);
                         
+                        s.setShareBalance(s.getShareBalance()-shares);
+                        
                         Record r=isRecordExisted(userName,symbol);
                         
                     if(r!=null)
@@ -256,8 +258,10 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                 {
                     if(r.getShares()>=shares)
                     {
-                        r.setShares(r.getShares()-shares);
                         u.setCashBalance(u.getCashBalance()+s.getPrice()*shares);
+                        s.setShareBalance(s.getShareBalance()+shares);
+                        r.setShares(r.getShares()-shares);
+
                         StockData.getInstance().save();
                         
                         return("[SELL] succeed -> "+userName+","+symbol+","+shares);
