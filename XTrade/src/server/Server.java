@@ -40,7 +40,7 @@ public class Server {
         
         //initialize XTrade
         XTrade newXTrade=new XTrade();
-        newXTrade.loadLists();
+
         StockData.getInstance().printList();
   
         
