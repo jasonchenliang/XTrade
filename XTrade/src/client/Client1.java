@@ -10,7 +10,7 @@ import java.rmi.registry.*;
 import java.util.Scanner;
 
 public class Client1 {
-    private static final String HOST = "localhost";
+    private static final String HOST = "192.168.0.18";
     private static final int PORT = 1099;
     private static Registry registry;
     private Scanner in ;

@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 import java.rmi.registry.*;
 
 public class Client2 {
-    private static final String HOST = "localhost";
+    private static final String HOST = "192.168.0.18";
     private static final int PORT = 1099;
     private static Registry registry;
 
@@ -62,7 +62,7 @@ public class Client2 {
             else if(Com.length == 1 && Com[0].equalsIgnoreCase("man")){
                  System.out.println("Client2 Command List:\n1. buy symbol stock_num"
                     + "\n2. sell symbol stock_num\n3. query symbol\n"
-                    + "4. queryRecord symbol\n5. man\n 6. quit");
+                    + "4. queryRecord symbol\n5. man\n6. quit");
             }
             else if(Com.length == 2 && Com[0].equalsIgnoreCase("query")){
                 System.out.println(remoteXTrade.queryStock(Com[1]));
