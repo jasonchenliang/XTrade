@@ -44,9 +44,13 @@ public class StockData {
     
     public void refresh()
     {
-        for (Stock s: stockList)
+        Stock temp=null;
+        for (Stock stock: stockList)
         {
-            
+            temp=null;
+            temp=this.querybyurl(stock.getSymbol());
+            if (temp!=null)
+                stock.setPrice(temp.getPrice());
         }
     }
     
