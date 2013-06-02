@@ -41,7 +41,7 @@ public class Server {
         
         //initialize XTrade
         XTrade newXTrade=new XTrade();
-
+        System.out.println("Listening...");
                
         Thread refresher = new Thread(new priceRefresher(REFRESH_SECS));
         
