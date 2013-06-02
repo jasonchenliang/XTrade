@@ -44,7 +44,7 @@ public class Server {
 
         StockData.getInstance().printList();
         
-        Thread refresher = new Thread(new priceRefresher(REFRESH_SECS));
+        Thread refresher = new Thread(new priceRefresher(REFRESH_SECS,newXTrade));
         
         refresher.start();
                
