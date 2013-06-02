@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.rmi.ConnectException;
 import java.rmi.registry.*;
+import java.util.ArrayList;
 import object.Record;
 
 public class Client2 {
@@ -105,9 +106,17 @@ public class Client2 {
                          + "\n> QUIT");
             }
             else if(Com.length == 1 && Com[0].equalsIgnoreCase("stocklist")){
-                for(Record r:remoteXTrade.getRecord(loginCom[1]))
+                ArrayList<Record> recordList = remoteXTrade.getRecord(loginCom[1]); 
+                if (recordList.isEmpty())
                 {
-                    System.out.println(r.toString());
+                    System.out.println("You do not have stock on your hand\n");
+                }
+                else
+                {
+                    for(Record r:recordList)
+                    {
+                        System.out.println(r.toString());
+                    }
                 }
             }
             else if(Com.length == 1 && Com[0].equalsIgnoreCase("balance")){

@@ -7,6 +7,7 @@ package client;
 import api.XTradeAPI;
 import java.io.*;
 import java.rmi.registry.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import object.Stock;
 
@@ -109,6 +110,11 @@ public class Client1 {
                          + "\n> QUIT");                
             }
             else if(Com.length == 1 && Com[0].equalsIgnoreCase("stocklist")){
+                ArrayList<Stock> stockList = remoteXTrade.getAllStock(); 
+                if (stockList.isEmpty())
+                {
+                    System.out.println("No track stocks\n");
+                }
                 for(Stock s:remoteXTrade.getAllStock())
                 {
                     System.out.println(s.toString());
@@ -119,7 +125,7 @@ public class Client1 {
             }
             else if(Com.length == 2 && Com[0].equalsIgnoreCase("queryUser")){
                 
-                    System.out.println(remoteXTrade.queryUser(Com[1]));
+                 System.out.println(remoteXTrade.queryUser(Com[1]));
                 
             }
             else if(Com.length == 3 && Com[0].equalsIgnoreCase("update")){
