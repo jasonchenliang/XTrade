@@ -111,4 +111,9 @@ public class Stock implements Serializable{
         return (this.getSymbol()+","+this.getName()+","+Double.toString(this.getPrice())+","+Integer.toString(this.getShareBalance()));
     }
     
+    public String display()
+    {
+        return (this.symbol+"\n"+this.name+"\n$"+this.price+"\nQty:"+this.shareBalance);
+    }
+    
 }
