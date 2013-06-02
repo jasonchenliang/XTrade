@@ -113,7 +113,7 @@ public class Stock implements Serializable{
     
     public String display()
     {
-        return (this.symbol+"\n"+this.name+"\nPrice: $"+this.price+"\nQty:   "+this.shareBalance);
+        return (this.symbol+"\n"+this.name+"\nPrice: $"+this.price+"\nQty  : "+this.shareBalance);
     }
     
 }
