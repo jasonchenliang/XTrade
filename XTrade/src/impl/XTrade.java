@@ -107,10 +107,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
         }
     }
     
-    private String displayUpdate()
-    {
-        return ("Last updated on:"+this.lastUpdateTime+"\n"+"by "+updatedby);
-    }
+    
     
     
     /*
@@ -122,7 +119,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
            Stock s=isStockTracked(symbol);
            if(s!=null)
            {
-                    return (s.display()+"\n"+this.displayUpdate());//     return ("TEST!!!!"+s.toString());
+                    return (s.display());//     return ("TEST!!!!"+s.toString());
            }
            
            else
@@ -133,7 +130,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                 {       
                     stockList.add(s);
                     StockData.getInstance().save();
-                    return ("[ADD] succeed\n "+s.display()+"\n"+this.displayUpdate());
+                    return ("[ADD] succeed -> "+s.display());
                 }
                 else
                 {
