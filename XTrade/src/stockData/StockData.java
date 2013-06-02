@@ -85,12 +85,10 @@ public class StockData {
         Stock newStock = null;
         if (inputline != null) {
             String[] stockString = inputline.split("\"");
-
-            for (int i = 0; i < stockString.length; i++) {
-                stockString[i] = stockString[i].replaceAll(",", "");
-
-            }
             if (stockString != null) {
+                for (int i = 0; i < stockString.length; i++) {
+                    stockString[i] = stockString[i].replaceAll(",", "");
+                }
                 if (stockString.length == 5) {
                     String symbol = stockString[1];
                     double price;
