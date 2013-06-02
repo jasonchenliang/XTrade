@@ -111,7 +111,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                 {       
                     stockList.add(s);
                     StockData.getInstance().save();
-                    return ("[ADD] succeed -> "+s.toString()+" stockList size= "+stockList.size()+" stockData size= "+StockData.getInstance().getStockList().size());
+                    return ("[ADD] succeed -> "+s.toString());
                 }
                 else
                 {
@@ -341,6 +341,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     /*
      * helper function to return record in the array list
      */
+    @Override
     public Record isRecordExisted(String userName,String symbol)
     {
         for(Record r:recordList)
@@ -376,6 +377,31 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
     @Override
     public ArrayList<Record> getAllRecord() throws RemoteException {
         return recordList;
+    }
+
+    
+    /*
+     * Return all records of a user
+     * @param userName the user's name
+     */
+    @Override
+    public ArrayList<Record> getRecord(String userName) throws RemoteException 
+    {
+        ArrayList<Record> newRecord=new ArrayList();
+        User u=isUserExisted(userName);
+        
+        if(u!=null)
+        {
+            for(Record r:recordList)
+            {
+                if(r.getUserName().equalsIgnoreCase(userName))
+                {
+                    newRecord.add(r);
+                }
+            }
+        }
+        return newRecord;
+        
     }
     
     
