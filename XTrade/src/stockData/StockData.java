@@ -15,9 +15,9 @@ import object.*;
 public class StockData {
 
     private static final StockData instance = new StockData();
-    private static final String STOCKFILE = "resource/stock.csv";
-    private static final String USERFILE = "resource/user.csv";
-    private static final String RECORDFILE = "resource/record.csv";
+    private static final String STOCKFILE = "stock.csv";
+    private static final String USERFILE = "user.csv";
+    private static final String RECORDFILE = "record.csv";
     private ArrayList<Stock> stockList = new ArrayList<>();
     private ArrayList<User> userList = new ArrayList<>();
     private ArrayList<Record> recordList = new ArrayList<>();
@@ -221,7 +221,7 @@ public class StockData {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println("File not found!");
+//            System.out.println("File not found!");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -255,7 +255,7 @@ public class StockData {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println("File not found!");
+//            System.out.println("File not found!");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -291,7 +291,7 @@ public class StockData {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println("File not found!");
+//            System.out.println("File not found!");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
