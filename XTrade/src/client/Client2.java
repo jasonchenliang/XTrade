@@ -10,46 +10,63 @@ package client;
 import api.XTradeAPI;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.rmi.ConnectException;
 import java.rmi.registry.*;
 
 public class Client2 {
-    private static final String HOST = "192.168.0.18";
+    private static final String HOST = "localhost";
     private static final int PORT = 1099;
     private static Registry registry;
 
-    public static void main(String[] args) throws Exception {
-        registry = LocateRegistry.getRegistry(HOST, PORT);
+    public static void main(String[] args)  throws Exception{
         
+        if (args.length == 0)
+        {
+            registry = LocateRegistry.getRegistry(HOST, PORT);
+        }
+        else if (args.length == 1)
+        {
+            registry = LocateRegistry.getRegistry(args[0], PORT);        
+        }
+        else
+            System.out.println("you can only imput one arguments as server IP Address.");
         //new XTradeAPI instance 
         XTradeAPI remoteXTrade = (XTradeAPI) registry.lookup(XTradeAPI.class.getSimpleName());
         
         System.out.println(remoteXTrade.hello()+": 2");
         
         
-        boolean flag = true;
+        boolean flag1 = true;
+        boolean flag2 = true;        
         String inputline = new String();
         String[] loginCom = new String[5];
         String[] Com = new String[5];
-        while(flag == true){
+        while(flag1 == true){
             System.out.println("Pleaese login:");
         
             InputStreamReader isr = new InputStreamReader(System.in);
             BufferedReader br= new BufferedReader(isr);
             inputline = br.readLine();
             loginCom = inputline.split(" ");
-            if(loginCom.length != 2 || !("user".equals(loginCom[0]))){
-                System.out.println("Syntax error (Hints: user ***)!");
+            
+            if(loginCom.length == 1 && loginCom[0].equalsIgnoreCase("quit")){
+                flag2 = false;
+                flag1 = false;
             }
-            else {
+            else if(loginCom.length == 2 || "user".equals(loginCom[0])){
                 System.out.println(remoteXTrade.login(loginCom[1]));
-                flag = false;           
-            }      
-        }
-        flag = true;
-        System.out.println("Client2 Command List:\n1. buy symbol stock_num"
+                System.out.println("Client2 Command List:\n1. buy symbol stock_num"
                     + "\n2. sell symbol stock_num\n3. query symbol\n"
                     + "4. queryRecord symbol\n5. man(show the commands)\n6. quit");
-        while(flag == true)
+        
+                flag1 = false;           
+            }  
+            else 
+            {
+                System.out.println("Syntax error (Hints: user ***)! OR type quit");
+            }
+        }
+        while(flag2 == true)
         {      
             System.out.print("\nXTrade > ");
             InputStreamReader isr = new InputStreamReader(System.in);
@@ -57,7 +74,7 @@ public class Client2 {
             inputline = br.readLine();
             Com = inputline.split(" ");
             if(Com.length == 1 && Com[0].equalsIgnoreCase("quit")){
-                flag = false;
+                flag2 = false;
             }
             else if(Com.length == 1 && Com[0].equalsIgnoreCase("man")){
                  System.out.println("Client2 Command List:\n1. buy symbol stock_num"
