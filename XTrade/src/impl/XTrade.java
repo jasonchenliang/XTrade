@@ -190,41 +190,52 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
         
         if(s!=null)
         {   
-            User u=isUserExisted(userName);
-            
-            if(u!=null)
+            if(s.getShareBalance()>=shares)
             {
-                if(u.getCashBalance()>=s.getPrice()*shares)
-                {
-                        u.setCashBalance(doubleRoundUp(u.getCashBalance()-s.getPrice()*shares));
-                        
-                        s.setShareBalance(s.getShareBalance()-shares);
-                        
-                        Record r=isRecordExisted(userName,symbol);
-                        
-                    if(r!=null)
+                    User u=isUserExisted(userName);
+            
+                    if(u!=null)
                     {
-                        r.setShares(r.getShares()+shares);
-                        
+                            if(u.getCashBalance()>=s.getPrice()*shares)
+                            {
+                                    u.setCashBalance(doubleRoundUp(u.getCashBalance()-s.getPrice()*shares));
+
+                                    s.setShareBalance(s.getShareBalance()-shares);
+
+                                    Record r=isRecordExisted(userName,symbol);
+
+                                    if(r!=null)
+                                    {
+                                        r.setShares(r.getShares()+shares);
+
+                                    }
+                                    else
+                                    {
+                                        recordList.add(new Record(userName,symbol,shares));
+                                    }
+
+                                    StockData.getInstance().save();
+
+                                    return ("[BUY] succeed -> "+userName+","+symbol+","+shares);
+                             }
+
+                            else
+                            {
+                                return("[ERROR] No enough cash balance.");
+                            }
                     }
+                    
                     else
                     {
-                        recordList.add(new Record(userName,symbol,shares));
+                        return("[ERROR] user "+userName+" does not exist.");
                     }
-                    
-                    StockData.getInstance().save();
-                    
-                    return ("[BUY] succeed -> "+userName+","+symbol+","+shares);
-                }
-                else
-                {
-                    return("[ERROR] No enough cash balance.");
-                }
             }
+            
             else
             {
-                return("[ERROR] user "+userName+" does not exist.");
+                return("[ERROR] No enough shares to buy.");
             }
+
         }
         
         else
