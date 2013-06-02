@@ -130,7 +130,7 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                 {       
                     stockList.add(s);
                     StockData.getInstance().save();
-                    return ("[ADD] succeed -> "+s.display());
+                    return (s.display());
                 }
                 else
                 {
