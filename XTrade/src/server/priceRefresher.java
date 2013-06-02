@@ -4,6 +4,9 @@
  */
 package server;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import stockData.StockData;
@@ -15,6 +18,8 @@ import stockData.StockData;
 public class priceRefresher implements Runnable {
     private int interval;
     
+
+    
     public priceRefresher(int secs)
     {
         this.interval=secs;
@@ -24,11 +29,22 @@ public class priceRefresher implements Runnable {
     
     public void run()
     {
-        StockData.getInstance().refresh();
-        try {
-            Thread.sleep(interval*1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(priceRefresher.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+
+        while(true)
+        {
+            StockData.getInstance().refresh();
+            StockData.getInstance().save();
+ 	    
+           try {
+     
+                   Thread.sleep(interval*1000);
+        
+                } catch (InterruptedException ex) 
+                    {
+                        Logger.getLogger(priceRefresher.class.getName()).log(Level.SEVERE, null, ex);
+                    }
     }
+        }
+        
 }
