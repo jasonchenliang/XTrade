@@ -115,7 +115,15 @@ public class Client2 {
             }
             else if(Com.length == 2 && Com[0].equalsIgnoreCase("stocklist")){
                 Record r = remoteXTrade.isRecordExisted(loginCom[1], Com[1]);
-                System.out.println(r.toString());
+                if(r!=null)
+                {
+                   System.out.println(r.toString());
+
+                }
+                else
+                {
+                    System.out.println("No matched record.");
+                }
             }
             else if(Com.length == 2 && Com[0].equalsIgnoreCase("query")){
                 System.out.println(remoteXTrade.queryStock(Com[1]));
