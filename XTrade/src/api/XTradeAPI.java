@@ -30,6 +30,10 @@ public interface XTradeAPI extends Remote{
     
     public String sell(String symbol,String userName,int shares) throws RemoteException;
     
+    public ArrayList<Record> getRecord(String userName) throws RemoteException;
+    
+    public Record isRecordExisted(String userName,String symbol) throws RemoteException;
+    
     //test API
     public ArrayList<User> getAllUser() throws RemoteException;
     
