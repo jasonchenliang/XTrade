@@ -173,8 +173,7 @@ public class StockData {
             Stock newStock = null;
             String url = "http://finance.yahoo.com/d/quotes.csv?s=" + stockSymbol + "&f=snl1&e=.csv";
             URL queryurl = new URL(url);
-
-            System.out.println(url);
+          
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(queryurl.openStream()));
             String inputLine;
