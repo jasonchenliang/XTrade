@@ -19,12 +19,13 @@ import java.util.Date;
  */
 public class XTrade extends UnicastRemoteObject implements XTradeAPI{
 
-    private static Date date=new Date();
+//    private static Date date=new Date();
     private static DateFormat dateFormat=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private  ArrayList<Stock> stockList;
     private  ArrayList<User> userList;
     private  ArrayList<Record> recordList;
-   
+    private String lastUpdateTime ;
+    private String updatedby;
     
     /*
      * Constructor of XTrade 
@@ -34,6 +35,22 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
         super();
         loadLists();
 
+    }
+
+    public String getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public String getUpdatedby() {
+        return updatedby;
+    }
+
+    public void setLastUpdateTime(String lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
+    }
+
+    public void setUpdatedby(String updatedby) {
+        this.updatedby = updatedby;
     }
         
     /**
@@ -163,6 +180,8 @@ public class XTrade extends UnicastRemoteObject implements XTradeAPI{
                 {
                     stockList.get(i).setPrice(doubleRoundUp(price));
                     StockData.getInstance().save();
+                    this.lastUpdateTime=dateFormat.format(new Date()).toString();
+                    this.updatedby="Admin";
                     
                     return ("[UPDATE] succeed -> "+stockList.get(i).toString());
                 }
