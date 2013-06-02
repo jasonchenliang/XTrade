@@ -62,17 +62,18 @@ public class Client1 {
             }
             else if(loginCom.length == 2 || "user".equals(loginCom[0])){
                 System.out.println(remoteXTrade.login(loginCom[1]));
-                System.out.println("Client1 Command List:\n1. update symbol price"
+                System.out.println("\nClient1 Command List:"
+                         + "\n> UPDATE <SYMBOL> <PRICE>"
                          + "\n   ---update the stock price"
-                         + "\n2. queryUser username"
+                         + "\n> QUERYUSER <USERNAME>"
                          + "\n   ---Search the user balance"
-                         + "\n3. query symbol"
+                         + "\n> QUERY <SYMBOL>"
                          + "\n   ---search stock infomation"
-                         + "\n4. stocklist"
-                         + "\n   ---show all stocks in market"
-                         + "\n5. man"
+                         + "\n> STOCKLIST [SYMBOL]"
+                         + "\n   ---show all track stocks in market"
+                         + "\n> MAN"
                          + "\n   ---show the command list"
-                         + "\n6. quit");
+                         + "\n> QUIT");
                 
                 flag1 = false;     
             }  
@@ -94,17 +95,18 @@ public class Client1 {
             }
             else if(Com.length == 1 && Com[0].equalsIgnoreCase("man")){
                  
-                System.out.println("Client1 Command List:\n1. update symbol price"
+                System.out.println("\nClient1 Command List:"
+                         + "\n> UPDATE <SYMBOL> <PRICE>"
                          + "\n   ---update the stock price"
-                         + "\n2. queryUser username"
+                         + "\n> QUERYUSER <USERNAME>"
                          + "\n   ---Search the user balance"
-                         + "\n3. query symbol"
+                         + "\n> QUERY <SYMBOL>"
                          + "\n   ---search stock infomation"
-                         + "\n4. stocklist"
-                         + "\n   ---show all stocks in market"
-                         + "\n5. man"
+                         + "\n> STOCKLIST [SYMBOL]"
+                         + "\n   ---show all track stocks in market"
+                         + "\n> MAN"
                          + "\n   ---show the command list"
-                         + "\n6. quit");
+                         + "\n> QUIT");                
             }
             else if(Com.length == 1 && Com[0].equalsIgnoreCase("stocklist")){
                 for(Stock s:remoteXTrade.getAllStock())
@@ -123,7 +125,14 @@ public class Client1 {
             else if(Com.length == 3 && Com[0].equalsIgnoreCase("update")){
                 try{
                     Double price = Double.parseDouble(Com[2]);
-                    System.out.println(remoteXTrade.update(Com[1], price));
+                    if(price < 0)
+                    {
+                        System.out.println("The number you input cannot be negative!\n");
+                    }
+                    else
+                    {
+                        System.out.println(remoteXTrade.update(Com[1], price));
+                    }
                 }
                 catch(NumberFormatException e){
                     System.out.println("Invalid price!");

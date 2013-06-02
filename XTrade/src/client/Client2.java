@@ -43,7 +43,7 @@ public class Client2 {
         String[] loginCom = new String[5];
         String[] Com = new String[5];
         while(flag1 == true){
-            System.out.println("Client2, pleaese type command - user username - to login:");
+            System.out.println("Client2, pleaese type command - USER <USERNAME> - to login:");
         
             InputStreamReader isr = new InputStreamReader(System.in);
             BufferedReader br= new BufferedReader(isr);
@@ -56,20 +56,20 @@ public class Client2 {
             }
             else if(loginCom.length == 2 || "user".equals(loginCom[0])){
                 System.out.println(remoteXTrade.login(loginCom[1]));
-                System.out.println("Client2 Command List:\n"
-                         + "1. buy symbol stock_number"
+                System.out.println("\nClient2 Command List:\n"
+                         + "> BUY <SYMBOL> <STOCK_NUMBER>"
                          + "\n   ---purchase stock in the certain number"
-                         + "\n2. sell symbol stock_number"
+                         + "\n> SELL <SYMBOL> <STOCK-NUMBER>"
                          + "\n   ---sell the stocks you own"
-                         + "\n3. query symbol"
+                         + "\n> QUERY <SYMBOL>"
                          + "\n   ---search stock infomation"
-                         + "\n4. Stocklist (symbol)"
-                         + "\n   ---show how many stocks you have"
-                         + "\n5. balance"
+                         + "\n> STOCKLIST [SYMBOL]"
+                         + "\n   ---show all stocks on hand"
+                         + "\n> BALANCE"
                          + "\n   ---show your balance"
-                         + "\n6. man"
+                         + "\n> MAN"
                          + "\n   ---show the command list"
-                         + "\n7. quit");
+                         + "\n> QUIT");
                 flag1 = false;           
             }  
             else 
@@ -89,20 +89,20 @@ public class Client2 {
             }
             else if(Com.length == 1 && Com[0].equalsIgnoreCase("man")){    
                 
-                System.out.println("Client2 Command List:\n"
-                         + "1. buy symbol stock_number"
+               System.out.println("\nClient2 Command List:\n"
+                         + "> BUY <SYMBOL> <STOCK_NUMBER>"
                          + "\n   ---purchase stock in the certain number"
-                         + "\n2. sell symbol stock_number"
+                         + "\n> SELL <SYMBOL> <STOCK-NUMBER>"
                          + "\n   ---sell the stocks you own"
-                         + "\n3. query symbol"
+                         + "\n> QUERY <SYMBOL>"
                          + "\n   ---search stock infomation"
-                         + "\n4. Stocklist (symbol)"
-                         + "\n   ---show how many stocks you have"
-                         + "\n5. balance"
+                         + "\n> STOCKLIST [SYMBOL]"
+                         + "\n   ---show all stocks on hand"
+                         + "\n> BALANCE"
                          + "\n   ---show your balance"
-                         + "\n6. man"
+                         + "\n> MAN"
                          + "\n   ---show the command list"
-                         + "\n7. quit");
+                         + "\n> QUIT");
             }
             else if(Com.length == 1 && Com[0].equalsIgnoreCase("stocklist")){
                 for(Record r:remoteXTrade.getRecord(loginCom[1]))
@@ -115,15 +115,13 @@ public class Client2 {
             }
             else if(Com.length == 2 && Com[0].equalsIgnoreCase("stocklist")){
                 Record r = remoteXTrade.isRecordExisted(loginCom[1], Com[1]);
-                if(r!=null)
-                {
-                   System.out.println(r.toString());
-
+                if(r != null){
+                    System.out.println(r.toString());
                 }
-                else
-                {
-                    System.out.println("No matched record.");
+                else {
+                    System.out.println("No match stock!");
                 }
+                
             }
             else if(Com.length == 2 && Com[0].equalsIgnoreCase("query")){
                 System.out.println(remoteXTrade.queryStock(Com[1]));
@@ -134,18 +132,29 @@ public class Client2 {
             else if(Com.length == 3 && Com[0].equalsIgnoreCase("buy")){
                 try{
                     int buy_shares = Integer.parseInt(Com[2]);
-                    System.out.println(remoteXTrade.buy(Com[1],loginCom[1], buy_shares));
+                    if(buy_shares < 0)
+                    {
+                        System.out.println("The number you input cannot be negative!\n");
+                    }
+                    else
+                    {
+                        System.out.println(remoteXTrade.buy(Com[1],loginCom[1], buy_shares));
+                    }
                 }
                 catch(NumberFormatException e){
-                    System.out.println("Invalid price!");
-                    
-                } 
-                
+                    System.out.println("Invalid price!");                    
+                }                 
             }
             else if(Com.length == 3 && Com[0].equalsIgnoreCase("sell")){
                 try{
                     int sell_shares = Integer.parseInt(Com[2]);
-                    System.out.println(remoteXTrade.sell(Com[1],loginCom[1], sell_shares));
+                    if(sell_shares < 0)
+                    {
+                        System.out.println("The number you input cannot be negative!\n");
+                    }
+                    else{
+                        System.out.println(remoteXTrade.sell(Com[1],loginCom[1], sell_shares));
+                    }    
                 }
                 catch(NumberFormatException e){
                     System.out.println("Invalid Share Number!");
