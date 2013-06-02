@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.rmi.ConnectException;
 import java.rmi.registry.*;
+import object.Record;
 
 public class Client2 {
     private static final String HOST = "localhost";
@@ -42,7 +43,7 @@ public class Client2 {
         String[] loginCom = new String[5];
         String[] Com = new String[5];
         while(flag1 == true){
-            System.out.println("Pleaese login:");
+            System.out.println("Client2, pleaese type command - user username - to login:");
         
             InputStreamReader isr = new InputStreamReader(System.in);
             BufferedReader br= new BufferedReader(isr);
@@ -55,10 +56,20 @@ public class Client2 {
             }
             else if(loginCom.length == 2 || "user".equals(loginCom[0])){
                 System.out.println(remoteXTrade.login(loginCom[1]));
-                System.out.println("Client2 Command List:\n1. buy symbol stock_num"
-                    + "\n2. sell symbol stock_num\n3. query symbol\n"
-                    + "4. queryRecord symbol\n5. man(show the commands)\n6. quit");
-        
+                System.out.println("Client2 Command List:\n"
+                         + "1. buy symbol stock_number"
+                         + "\n   ---purchase stock in the certain number"
+                         + "\n2. sell symbol stock_number"
+                         + "\n   ---sell the stocks you own"
+                         + "\n3. query symbol"
+                         + "\n   ---search stock infomation"
+                         + "\n4. Stocklist (symbol)"
+                         + "\n   ---show how many stocks you have"
+                         + "\n5. balance"
+                         + "\n   ---show your balance"
+                         + "\n6. man"
+                         + "\n   ---show the command list"
+                         + "\n7. quit");
                 flag1 = false;           
             }  
             else 
@@ -76,10 +87,35 @@ public class Client2 {
             if(Com.length == 1 && Com[0].equalsIgnoreCase("quit")){
                 flag2 = false;
             }
-            else if(Com.length == 1 && Com[0].equalsIgnoreCase("man")){
-                 System.out.println("Client2 Command List:\n1. buy symbol stock_num"
-                    + "\n2. sell symbol stock_num\n3. query symbol\n"
-                    + "4. queryRecord symbol\n5. man\n6. quit");
+            else if(Com.length == 1 && Com[0].equalsIgnoreCase("man")){    
+                
+                System.out.println("Client2 Command List:\n"
+                         + "1. buy symbol stock_number"
+                         + "\n   ---purchase stock in the certain number"
+                         + "\n2. sell symbol stock_number"
+                         + "\n   ---sell the stocks you own"
+                         + "\n3. query symbol"
+                         + "\n   ---search stock infomation"
+                         + "\n4. Stocklist (symbol)"
+                         + "\n   ---show how many stocks you have"
+                         + "\n5. balance"
+                         + "\n   ---show your balance"
+                         + "\n6. man"
+                         + "\n   ---show the command list"
+                         + "\n7. quit");
+            }
+            else if(Com.length == 1 && Com[0].equalsIgnoreCase("stocklist")){
+                for(Record r:remoteXTrade.getRecord(loginCom[1]))
+                {
+                    System.out.println(r.toString());
+                }
+            }
+            else if(Com.length == 1 && Com[0].equalsIgnoreCase("balance")){
+                System.out.println(remoteXTrade.queryUser(loginCom[1]));
+            }
+            else if(Com.length == 2 && Com[0].equalsIgnoreCase("stocklist")){
+                Record r = remoteXTrade.isRecordExisted(loginCom[1], Com[1]);
+                System.out.println(r.toString());
             }
             else if(Com.length == 2 && Com[0].equalsIgnoreCase("query")){
                 System.out.println(remoteXTrade.queryStock(Com[1]));

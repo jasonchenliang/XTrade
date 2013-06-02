@@ -8,6 +8,7 @@ import api.XTradeAPI;
 import java.io.*;
 import java.rmi.registry.*;
 import java.util.Scanner;
+import object.Stock;
 
 public class Client1 {
     private static final String HOST = "localhost";
@@ -49,7 +50,7 @@ public class Client1 {
         
         
         while(flag1 == true){
-            System.out.println("Pleaese login:");
+            System.out.println("Client1, pleaese type command - user username - to login:");
         
             InputStreamReader isr = new InputStreamReader(System.in);
             BufferedReader br= new BufferedReader(isr);
@@ -61,8 +62,18 @@ public class Client1 {
             }
             else if(loginCom.length == 2 || "user".equals(loginCom[0])){
                 System.out.println(remoteXTrade.login(loginCom[1]));
-                System.out.println("Hints: client1 \n1. update symbol price\n2. query symbol"
-                + "\n3. queryUser username\n4. man(show the commands)\n5. quit");
+                System.out.println("Client1 Command List:\n1. update symbol price"
+                         + "\n   ---update the stock price"
+                         + "\n2. queryUser username"
+                         + "\n   ---Search the user balance"
+                         + "\n3. query symbol"
+                         + "\n   ---search stock infomation"
+                         + "\n4. stocklist"
+                         + "\n   ---show all stocks in market"
+                         + "\n5. man"
+                         + "\n   ---show the command list"
+                         + "\n6. quit");
+                
                 flag1 = false;     
             }  
             else 
@@ -82,8 +93,24 @@ public class Client1 {
                 flag2 = false;
             }
             else if(Com.length == 1 && Com[0].equalsIgnoreCase("man")){
-                 System.out.println("Hints: client1 \n1. update symbol price\n2. query symbol"
-                + "\n3. queryUser username\n4. man(show the commands)\n5. quit");
+                 
+                System.out.println("Client1 Command List:\n1. update symbol price"
+                         + "\n   ---update the stock price"
+                         + "\n2. queryUser username"
+                         + "\n   ---Search the user balance"
+                         + "\n3. query symbol"
+                         + "\n   ---search stock infomation"
+                         + "\n4. stocklist"
+                         + "\n   ---show all stocks in market"
+                         + "\n5. man"
+                         + "\n   ---show the command list"
+                         + "\n6. quit");
+            }
+            else if(Com.length == 1 && Com[0].equalsIgnoreCase("stocklist")){
+                for(Stock s:remoteXTrade.getAllStock())
+                {
+                    System.out.println(s.toString());
+                }
             }
             else if(Com.length == 2 && Com[0].equalsIgnoreCase("query")){
                 System.out.println(remoteXTrade.queryStock(Com[1]));
